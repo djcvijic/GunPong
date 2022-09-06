@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class PaddleView : MonoBehaviour
 {
-    [SerializeField] private Joystick joystick;
-
     [SerializeField] private float speed = 1f;
 
     private void Update()
     {
-        Move(joystick.Horizontal, Time.deltaTime);
+        var input = UIController.Instance.InputHorizontal;
+        Move(input, Time.deltaTime);
     }
 
-    private void Move(float amount, float deltaTime)
+    private void Move(float input, float deltaTime)
     {
         var t = transform;
         var position = t.position;
-        position.x += speed * amount * deltaTime;
+        position.x += speed * input * deltaTime;
         t.position = position;
     }
 }
