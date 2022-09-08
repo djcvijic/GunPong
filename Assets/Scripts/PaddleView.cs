@@ -12,13 +12,14 @@ public class PaddleView : MonoBehaviour
 
     private float timeSinceLastFire;
 
-    private Transform GameBounds => GameView.Instance.GameBounds;
+    private GameBounds GameBounds => GameView.Instance.GameBounds;
 
     private void Update()
     {
         var inputHorizontal = UIController.Instance.InputHorizontal;
         Move(inputHorizontal, Time.deltaTime);
-        KeepInBounds(GameBounds.transform);
+
+        KeepInBounds(GameBounds);
 
         var inputFire = UIController.Instance.InputFire;
         FireIfPossible(inputFire, Time.deltaTime);
@@ -32,25 +33,11 @@ public class PaddleView : MonoBehaviour
         t.position = position;
     }
 
-    private void KeepInBounds(Transform gameBounds)
+    private void KeepInBounds(GameBounds gameBounds)
     {
         var position = transform.position;
-        var chassisPositionX = chassis.position.x;
-        var chassisScaleX = chassis.localScale.x;
-        var gameBoundsPositionX = gameBounds.position.x;
-        var gameBoundsScaleX = gameBounds.localScale.x;
-        var minX = gameBoundsPositionX - 0.5f * gameBoundsScaleX + 0.5f * chassisScaleX;
-        var maxX = gameBoundsPositionX + 0.5f * gameBoundsScaleX - 0.5f * chassisScaleX;
-        if (chassisPositionX < minX)
-        {
-            position.x = minX;
-        }
-        else if (chassisPositionX > maxX)
-        {
-            position.x = maxX;
-        }
-
-        transform.position = position;
+        var chassisScale = chassis.lossyScale;
+        transform.position = gameBounds.KeepInBounds(position, chassisScale);
     }
 
     private void FireIfPossible(bool input, float deltaTime)

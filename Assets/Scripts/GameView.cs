@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameView : GenericMonoSingleton<GameView>
 {
-    [SerializeField] private Transform gameBounds;
+    [SerializeField] private GameBounds gameBounds;
 
-    public Transform GameBounds => gameBounds;
+    public GameBounds GameBounds => gameBounds;
 }
