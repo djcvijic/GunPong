@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 468698287}
   - component: {fileID: 468698289}
   - component: {fileID: 468698288}
+  - component: {fileID: 468698290}
   m_Layer: 5
   m_Name: FireButton
   m_TagString: Untagged
@@ -440,6 +441,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468698286}
   m_CullTransparentMesh: 1
+--- !u!114 &468698290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468698286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2703c752e24e4cef9450ba83445299fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleWhenPressed: 0.9
 --- !u!1 &476505861
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +768,46 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &628349685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 628349686}
+  - component: {fileID: 628349687}
+  m_Layer: 0
+  m_Name: GameBounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &628349686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628349685}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 6.18, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 637582468}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &628349687
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628349685}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &637582467
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,6 +817,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 637582468}
+  - component: {fileID: 637582469}
   m_Layer: 0
   m_Name: GameView
   m_TagString: Untagged
@@ -787,9 +842,23 @@ Transform:
   - {fileID: 1248950850}
   - {fileID: 891274115}
   - {fileID: 773243165}
+  - {fileID: 628349686}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &637582469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637582467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b19bde5d7e8d40bbb31c9c2b2536b0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameBounds: {fileID: 628349686}
 --- !u!1 &773243164
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,6 +1007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 1087480099}
+  fireButton: {fileID: 468698290}
 --- !u!1 &891274114
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,7 +2096,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d226a88eb0c465fb4071c9fccbe086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chassis: {fileID: 228037644}
   speed: 5
+  fireCooldown: 0.5
 --- !u!1 &1867532523
 GameObject:
   m_ObjectHideFlags: 0
