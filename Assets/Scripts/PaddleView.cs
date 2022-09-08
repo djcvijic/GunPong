@@ -37,7 +37,10 @@ public class PaddleView : MonoBehaviour
     {
         var position = transform.position;
         var chassisScale = chassis.lossyScale;
-        transform.position = gameBounds.KeepInBounds(position, chassisScale);
+        if (gameBounds.KeepInBounds(ref position, chassisScale))
+        {
+            transform.position = position;
+        }
     }
 
     private void FireIfPossible(bool input, float deltaTime)

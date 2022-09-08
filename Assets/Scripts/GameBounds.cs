@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameBounds : MonoBehaviour
@@ -25,29 +26,44 @@ public class GameBounds : MonoBehaviour
         scale = t.lossyScale;
     }
 
-    public Vector3 KeepInBounds(Vector3 otherPosition, Vector3 otherScale)
+    public bool KeepInBounds(ref Vector3 otherPosition, Vector3 otherScale)
     {
-        var result = otherPosition;
+        var result = false;
 
         if (constrainX)
         {
             var minX = position.x - 0.5f * (1f - paddingFactorX) * scale.x + 0.5f * otherScale.x;
             var maxX = position.x + 0.5f * (1f - paddingFactorX) * scale.x - 0.5f * otherScale.x;
-            result.x = Mathf.Clamp(result.x, minX, maxX);
+            var clampedX = Mathf.Clamp(otherPosition.x, minX, maxX);
+            if (Math.Abs(clampedX - otherPosition.x) > float.Epsilon)
+            {
+                otherPosition.x = clampedX;
+                result = true;
+            }
         }
 
         if (constrainY)
         {
             var minY = position.y - 0.5f * (1f - paddingFactorY) * scale.y + 0.5f * otherScale.y;
             var maxY = position.y + 0.5f * (1f - paddingFactorY) * scale.y - 0.5f * otherScale.y;
-            result.y = Mathf.Clamp(result.y, minY, maxY);
+            var clampedY = Mathf.Clamp(otherPosition.y, minY, maxY);
+            if (Math.Abs(clampedY - otherPosition.y) > float.Epsilon)
+            {
+                otherPosition.y = clampedY;
+                result = true;
+            }
         }
 
         if (constrainZ)
         {
             var minZ = position.z - 0.5f * (1f - paddingFactorZ) * scale.z + 0.5f * otherScale.z;
             var maxZ = position.z + 0.5f * (1f - paddingFactorZ) * scale.z - 0.5f * otherScale.z;
-            result.z = Mathf.Clamp(result.z, minZ, maxZ);
+            var clampedZ = Mathf.Clamp(otherPosition.z, minZ, maxZ);
+            if (Math.Abs(clampedZ - otherPosition.z) > float.Epsilon)
+            {
+                otherPosition.z = clampedZ;
+                result = true;
+            }
         }
 
         return result;
