@@ -15,19 +15,11 @@ public class GameBounds : MonoBehaviour
 
     [SerializeField, Range(0f, 1f)] private float paddingFactorZ;
 
-    private Vector3 position;
-
-    private Vector3 scale;
-
-    private void Start()
-    {
-        var t = transform;
-        position = t.position;
-        scale = t.localScale;
-    }
-
     public bool KeepInBounds(ref Vector3 otherPosition, Vector3 otherScale)
     {
+        var t = transform;
+        var position = t.position;
+        var scale = t.localScale;
         var result = false;
 
         if (constrainX)
