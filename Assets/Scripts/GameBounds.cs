@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class GameBounds : MonoBehaviour
@@ -15,45 +14,89 @@ public class GameBounds : MonoBehaviour
 
     [SerializeField, Range(0f, 1f)] private float paddingFactorZ;
 
-    public bool KeepInBounds(ref Vector3 otherPosition, Vector3 otherScale)
+    public bool KeepInBounds(ref Vector3 position, Vector3 scale)
+    {
+        var result = IsLeavingBounds(position, scale, out var clampedPosition);
+        if (constrainX) position.x = clampedPosition.x;
+        if (constrainY) position.y = clampedPosition.y;
+        if (constrainZ) position.z = clampedPosition.z;
+        return result;
+    }
+
+    private bool IsLeavingBounds(Vector3 position, Vector3 scale, out Vector3 clampedPosition)
     {
         var t = transform;
-        var position = t.position;
-        var scale = t.localScale;
+        var boundsPosition = t.position;
+        var boundsScale = t.localScale;
+        var result = false;
+        clampedPosition = position;
+
+        var minX = boundsPosition.x - 0.5f * (1f - paddingFactorX) * boundsScale.x + 0.5f * scale.x;
+        var maxX = boundsPosition.x + 0.5f * (1f - paddingFactorX) * boundsScale.x - 0.5f * scale.x;
+        var clampedX = Mathf.Clamp(position.x, minX, maxX);
+        if (!clampedX.Approximately(position.x))
+        {
+            clampedPosition.x = clampedX;
+            result = true;
+        }
+        
+        var minY = boundsPosition.y - 0.5f * (1f - paddingFactorY) * boundsScale.y + 0.5f * scale.y;
+        var maxY = boundsPosition.y + 0.5f * (1f - paddingFactorY) * boundsScale.y - 0.5f * scale.y;
+        var clampedY = Mathf.Clamp(position.y, minY, maxY);
+        if (!clampedY.Approximately(position.y))
+        {
+            clampedPosition.y = clampedY;
+            result = true;
+        }
+        
+        var minZ = boundsPosition.z - 0.5f * (1f - paddingFactorZ) * boundsScale.z + 0.5f * scale.z;
+        var maxZ = boundsPosition.z + 0.5f * (1f - paddingFactorZ) * boundsScale.z - 0.5f * scale.z;
+        var clampedZ = Mathf.Clamp(position.z, minZ, maxZ);
+        if (!clampedZ.Approximately(position.z))
+        {
+            clampedPosition.z = clampedZ;
+            result = true;
+        }
+
+        return result;
+    }
+
+    public bool IsOutOfBounds(Vector3 position, Vector3 scale)
+    {
+        var t = transform;
+        var boundsPosition = t.position;
+        var boundsScale = t.localScale;
         var result = false;
 
         if (constrainX)
         {
-            var minX = position.x - 0.5f * (1f - paddingFactorX) * scale.x + 0.5f * otherScale.x;
-            var maxX = position.x + 0.5f * (1f - paddingFactorX) * scale.x - 0.5f * otherScale.x;
-            var clampedX = Mathf.Clamp(otherPosition.x, minX, maxX);
-            if (Math.Abs(clampedX - otherPosition.x) > float.Epsilon)
+            var minX = boundsPosition.x - 0.5f * boundsScale.x - 0.5f * scale.x;
+            var maxX = boundsPosition.x + 0.5f * boundsScale.x + 0.5f * scale.x;
+            var clampedX = Mathf.Clamp(position.x, minX, maxX);
+            if (!clampedX.Approximately(position.x))
             {
-                otherPosition.x = clampedX;
                 result = true;
             }
         }
 
         if (constrainY)
         {
-            var minY = position.y - 0.5f * (1f - paddingFactorY) * scale.y + 0.5f * otherScale.y;
-            var maxY = position.y + 0.5f * (1f - paddingFactorY) * scale.y - 0.5f * otherScale.y;
-            var clampedY = Mathf.Clamp(otherPosition.y, minY, maxY);
-            if (Math.Abs(clampedY - otherPosition.y) > float.Epsilon)
+            var minY = boundsPosition.y - 0.5f * boundsScale.y - 0.5f * scale.y;
+            var maxY = boundsPosition.y + 0.5f * boundsScale.y + 0.5f * scale.y;
+            var clampedY = Mathf.Clamp(position.y, minY, maxY);
+            if (!clampedY.Approximately(position.y))
             {
-                otherPosition.y = clampedY;
                 result = true;
             }
         }
 
         if (constrainZ)
         {
-            var minZ = position.z - 0.5f * (1f - paddingFactorZ) * scale.z + 0.5f * otherScale.z;
-            var maxZ = position.z + 0.5f * (1f - paddingFactorZ) * scale.z - 0.5f * otherScale.z;
-            var clampedZ = Mathf.Clamp(otherPosition.z, minZ, maxZ);
-            if (Math.Abs(clampedZ - otherPosition.z) > float.Epsilon)
+            var minZ = boundsPosition.z - 0.5f * boundsScale.z - 0.5f * scale.z;
+            var maxZ = boundsPosition.z + 0.5f * boundsScale.z + 0.5f * scale.z;
+            var clampedZ = Mathf.Clamp(position.z, minZ, maxZ);
+            if (!clampedZ.Approximately(position.z))
             {
-                otherPosition.z = clampedZ;
                 result = true;
             }
         }

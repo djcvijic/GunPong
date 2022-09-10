@@ -10,16 +10,18 @@ public class PaddleView : MonoBehaviour
 
     [SerializeField] private float fireCooldown = 1f;
 
+    [SerializeField] private PlayerEnum owner;
+
     private float timeSinceLastFire;
 
-    private GameBounds GameBounds => GameView.Instance.GameBounds;
+    public PlayerEnum Owner => owner;
 
     private void Update()
     {
         var inputHorizontal = UIController.Instance.InputHorizontal;
         Move(inputHorizontal, Time.deltaTime);
 
-        KeepInBounds(GameBounds);
+        KeepInBounds(GameView.Instance.GameBounds);
 
         var inputFire = UIController.Instance.InputFire;
         FireIfPossible(inputFire, Time.deltaTime);
@@ -50,5 +52,10 @@ public class PaddleView : MonoBehaviour
 
         timeSinceLastFire = 0f;
         Debug.Log("PEW");
+    }
+
+    public void GetHitBy(Bullet bullet)
+    {
+        Debug.Log("OUCH");
     }
 }
