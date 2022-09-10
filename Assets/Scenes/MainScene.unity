@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 280232097}
   - component: {fileID: 280232096}
   m_Layer: 0
-  m_Name: BoundsBackground
+  m_Name: InnerBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2166,7 +2166,7 @@ GameObject:
   - component: {fileID: 1735267114}
   - component: {fileID: 1735267113}
   m_Layer: 0
-  m_Name: GameBackground
+  m_Name: OuterBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
