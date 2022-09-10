@@ -23,7 +23,7 @@ public class GameBounds : MonoBehaviour
     {
         var t = transform;
         position = t.position;
-        scale = t.lossyScale;
+        scale = t.localScale;
     }
 
     public bool KeepInBounds(ref Vector3 otherPosition, Vector3 otherScale)
