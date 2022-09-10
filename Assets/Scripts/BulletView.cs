@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BulletView : MonoBehaviour
 {
-    [SerializeField] private PlayerEnum owner;
+    private PlayerEnum owner;
 
-    [SerializeField] private Vector3 velocity;
+    private Vector3 velocity;
 
     public void Initialize(PlayerEnum newOwner, Vector3 newVelocity)
     {
@@ -24,7 +25,7 @@ public class Bullet : MonoBehaviour
         transform.localPosition += deltaTime * velocity;
     }
 
-    private void DieIfOutOfBounds(GameBounds gameBounds)
+    private void DieIfOutOfBounds(GameBoundsView gameBounds)
     {
         var t = transform;
         var position = t.position;
@@ -35,9 +36,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        var otherPaddleView = other.GetComponent<PaddleView>();
+        var otherPaddleView = other.GetComponentInParent<PaddleView>();
         if (otherPaddleView != null && otherPaddleView.Owner != owner)
         {
             otherPaddleView.GetHitBy(this);

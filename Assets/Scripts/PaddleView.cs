@@ -4,7 +4,7 @@ public class PaddleView : MonoBehaviour
 {
     [SerializeField] private Transform chassis;
 
-    // [SerializeField] private Transform gun;
+    [SerializeField] private Transform gun;
 
     [SerializeField] private float speed = 1f;
 
@@ -12,18 +12,28 @@ public class PaddleView : MonoBehaviour
 
     [SerializeField] private PlayerEnum owner;
 
+    [SerializeField] private BulletView bulletPrefab;
+
+    [SerializeField] private float bulletSpeed = 1f;
+
     private float timeSinceLastFire;
 
     public PlayerEnum Owner => owner;
 
     private void Update()
     {
-        var inputHorizontal = UIController.Instance.InputHorizontal;
+        var inputHorizontal = 0f;
+        var inputFire = false;
+        if (owner == GameView.Instance.LocalPlayer)
+        {
+            inputHorizontal = UIController.Instance.InputHorizontal;
+            inputFire = UIController.Instance.InputFire;
+        }
+
         Move(inputHorizontal, Time.deltaTime);
 
         KeepInBounds(GameView.Instance.GameBounds);
 
-        var inputFire = UIController.Instance.InputFire;
         FireIfPossible(inputFire, Time.deltaTime);
     }
 
@@ -35,7 +45,7 @@ public class PaddleView : MonoBehaviour
         t.position = position;
     }
 
-    private void KeepInBounds(GameBounds gameBounds)
+    private void KeepInBounds(GameBoundsView gameBounds)
     {
         var position = transform.position;
         var chassisScale = chassis.lossyScale;
@@ -51,10 +61,20 @@ public class PaddleView : MonoBehaviour
         if (!input || timeSinceLastFire < fireCooldown) return;
 
         timeSinceLastFire = 0f;
-        Debug.Log("PEW");
+        Fire();
     }
 
-    public void GetHitBy(Bullet bullet)
+    private void Fire()
+    {
+        var bulletDirection = gun.up;
+        var bulletPosition = gun.position + gun.lossyScale.y * bulletDirection;
+        var bulletRotation = gun.rotation;
+        var bulletVelocity = bulletSpeed * bulletDirection;
+        var bullet = Instantiate(bulletPrefab, bulletPosition, bulletRotation);
+        bullet.Initialize(owner, bulletVelocity);
+    }
+
+    public void GetHitBy(BulletView bulletView)
     {
         Debug.Log("OUCH");
     }

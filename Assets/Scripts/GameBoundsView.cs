@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameBounds : MonoBehaviour
+public class GameBoundsView : MonoBehaviour
 {
     [SerializeField] private bool constrainX;
 
