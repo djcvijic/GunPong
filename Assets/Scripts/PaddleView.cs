@@ -4,7 +4,7 @@ public class PaddleView : MonoBehaviour
 {
     [SerializeField] private Transform chassis;
 
-    [SerializeField] private Transform gun;
+    [SerializeField] private Transform muzzle;
 
     [SerializeField] private float speed = 1f;
 
@@ -66,11 +66,11 @@ public class PaddleView : MonoBehaviour
 
     private void Fire()
     {
-        var bulletDirection = gun.up;
-        var bulletPosition = gun.position + gun.lossyScale.y * bulletDirection;
-        var bulletRotation = gun.rotation;
-        var bulletVelocity = bulletSpeed * bulletDirection;
+        var bulletPosition = muzzle.position;
+        var bulletRotation = muzzle.rotation;
         var bullet = Instantiate(bulletPrefab, bulletPosition, bulletRotation);
+        var bulletDirection = muzzle.up;
+        var bulletVelocity = bulletSpeed * bulletDirection;
         bullet.Initialize(owner, bulletVelocity);
     }
 
