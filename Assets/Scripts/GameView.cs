@@ -6,5 +6,8 @@ public class GameView : GenericMonoSingleton<GameView>
 
     public GameBoundsView GameBounds => gameBounds;
 
-    public PlayerEnum LocalPlayer => PlayerEnum.Player1;
+    public PlayerEnum GetOwner(PaddleView paddleView)
+    {
+        return paddleView.IsLocalPlayer ? PlayerEnum.Player1 : PlayerEnum.Player2;
+    }
 }

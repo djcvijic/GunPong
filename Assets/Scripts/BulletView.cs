@@ -45,6 +45,7 @@ public class BulletView : MonoBehaviour
         }
     }
 
+    // todo pool
     private void Die()
     {
         Destroy(gameObject);

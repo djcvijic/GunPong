@@ -10,7 +10,7 @@ public class PaddleView : MonoBehaviour
 
     [SerializeField] private float fireCooldown = 1f;
 
-    [SerializeField] private PlayerEnum owner;
+    [SerializeField] private bool isLocalPlayer;
 
     [SerializeField] private BulletView bulletPrefab;
 
@@ -18,13 +18,15 @@ public class PaddleView : MonoBehaviour
 
     private float timeSinceLastFire;
 
-    public PlayerEnum Owner => owner;
+    public bool IsLocalPlayer => isLocalPlayer;
+
+    public PlayerEnum Owner => GameView.Instance.GetOwner(this);
 
     private void Update()
     {
         var inputHorizontal = 0f;
         var inputFire = false;
-        if (owner == GameView.Instance.LocalPlayer)
+        if (isLocalPlayer)
         {
             inputHorizontal = UIController.Instance.InputHorizontal;
             inputFire = UIController.Instance.InputFire;
@@ -71,7 +73,7 @@ public class PaddleView : MonoBehaviour
         var bullet = Instantiate(bulletPrefab, bulletPosition, bulletRotation);
         var bulletDirection = muzzle.up;
         var bulletVelocity = bulletSpeed * bulletDirection;
-        bullet.Initialize(owner, bulletVelocity);
+        bullet.Initialize(Owner, bulletVelocity);
     }
 
     public void GetHitBy(BulletView bulletView)

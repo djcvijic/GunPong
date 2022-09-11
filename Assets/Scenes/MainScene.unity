@@ -2242,7 +2242,7 @@ MonoBehaviour:
   muzzle: {fileID: 1835325942}
   speed: 5
   fireCooldown: 0.5
-  owner: 1
+  isLocalPlayer: 1
   bulletPrefab: {fileID: 7290466554439756981, guid: f42e2b29f19b44de99a19c200c3f6c33, type: 3}
   bulletSpeed: 5
 --- !u!1 &1835325941
@@ -2613,6 +2613,6 @@ MonoBehaviour:
   muzzle: {fileID: 1545335190}
   speed: 5
   fireCooldown: 0.5
-  owner: 2
+  isLocalPlayer: 0
   bulletPrefab: {fileID: 7290466554439756981, guid: f42e2b29f19b44de99a19c200c3f6c33, type: 3}
   bulletSpeed: 5
