@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class BulletView : MonoBehaviour
+public class BulletView : PooledMonoBehaviour
 {
     private PlayerEnum owner;
 
     private Vector3 velocity;
 
-    public void Initialize(PlayerEnum newOwner, Vector3 newVelocity)
+    protected override void Activate(PlayerEnum newOwner, Vector3 newVelocity)
     {
         owner = newOwner;
         velocity = newVelocity;
@@ -45,9 +45,8 @@ public class BulletView : MonoBehaviour
         }
     }
 
-    // todo pool
     private void Die()
     {
-        Destroy(gameObject);
+        Deactivate();
     }
 }

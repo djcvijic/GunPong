@@ -70,10 +70,9 @@ public class PaddleView : MonoBehaviour
     {
         var bulletPosition = muzzle.position;
         var bulletRotation = muzzle.rotation;
-        var bullet = Instantiate(bulletPrefab, bulletPosition, bulletRotation);
         var bulletDirection = muzzle.up;
         var bulletVelocity = bulletSpeed * bulletDirection;
-        bullet.Initialize(Owner, bulletVelocity);
+        MonoPool<BulletView>.Instance.GetOrCreate(bulletPrefab, bulletPosition, bulletRotation, Owner, bulletVelocity);
     }
 
     public void GetHitBy(BulletView bulletView)

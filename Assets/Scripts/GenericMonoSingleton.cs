@@ -1,11 +1,5 @@
 using UnityEngine;
 
-public interface IGenericSelfReferencing { }
-
-public interface IGenericMonoSingletonSelfInstantiating { }
-
-public interface IGenericMonoSingletonDontDestroyOnLoad { }
-
 public abstract class GenericMonoSingleton<T> : MonoBehaviour, IGenericSelfReferencing
     where T : MonoBehaviour, IGenericSelfReferencing
 {
