@@ -2,28 +2,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class MonoPool<T> : GenericSingleton<MonoPool<T>> where T : PooledMonoBehaviour
+public class GenericMonoPool<T> : GenericSingleton<GenericMonoPool<T>> where T : MonoBehaviour
 {
     private readonly Stack<T> inactiveObjects = new();
 
-    public void GetOrCreate(T prefab, Vector3 position, Quaternion rotation, PlayerEnum owner, Vector3 velocity)
+    public T GetOrCreate(T prefab, Vector3 position, Quaternion rotation)
     {
         if (inactiveObjects.TryPop(out var obj))
         {
-            obj.gameObject.SetActive(true);
             var t = obj.transform;
             t.position = position;
             t.rotation = rotation;
-            obj.Activate(owner, velocity, null);
+            obj.gameObject.SetActive(true);
         }
         else
         {
             obj = Object.Instantiate(prefab, position, rotation, GameView.Instance.transform);
-            obj.Activate(owner, velocity, () => ReturnToPool(obj));
         }
+
+        return obj;
     }
 
-    private void ReturnToPool(T obj)
+    public void Return(T obj)
     {
         obj.gameObject.SetActive(false);
         inactiveObjects.Push(obj);

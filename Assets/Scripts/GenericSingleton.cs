@@ -1,18 +1,6 @@
-public abstract class GenericSingleton<T> : IGenericSelfReferencing
-    where T : IGenericSelfReferencing, new()
+public abstract class GenericSingleton<T> where T : GenericSingleton<T>, new()
 {
     private static T instance;
 
-    public static T Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new T();
-            }
-
-            return instance;
-        }
-    }
+    public static T Instance => instance ??= new T();
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public abstract class GenericMonoSingleton<T> : MonoBehaviour, IGenericSelfReferencing
-    where T : MonoBehaviour, IGenericSelfReferencing
+public abstract class GenericMonoSingleton<T> : MonoBehaviour where T : GenericMonoSingleton<T>
 {
     private static T instance;
 

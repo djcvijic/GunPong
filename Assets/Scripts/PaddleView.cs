@@ -72,7 +72,8 @@ public class PaddleView : MonoBehaviour
         var bulletRotation = muzzle.rotation;
         var bulletDirection = muzzle.up;
         var bulletVelocity = bulletSpeed * bulletDirection;
-        MonoPool<BulletView>.Instance.GetOrCreate(bulletPrefab, bulletPosition, bulletRotation, Owner, bulletVelocity);
+        var bullet = GenericMonoPool<BulletView>.Instance.GetOrCreate(bulletPrefab, bulletPosition, bulletRotation);
+        bullet.Initialize(Owner, bulletVelocity);
     }
 
     public void GetHitBy(BulletView bulletView)

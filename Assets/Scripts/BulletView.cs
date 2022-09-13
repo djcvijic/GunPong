@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class BulletView : PooledMonoBehaviour
+public class BulletView : MonoBehaviour
 {
     private PlayerEnum owner;
 
     private Vector3 velocity;
 
-    protected override void Activate(PlayerEnum newOwner, Vector3 newVelocity)
+    public void Initialize(PlayerEnum newOwner, Vector3 newVelocity)
     {
         owner = newOwner;
         velocity = newVelocity;
@@ -47,6 +47,6 @@ public class BulletView : PooledMonoBehaviour
 
     private void Die()
     {
-        Deactivate();
+        GenericMonoPool<BulletView>.Instance.Return(this);
     }
 }
