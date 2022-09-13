@@ -6,6 +6,8 @@ public class BallView : MonoBehaviour
 
     [SerializeField] private Vector3 velocity;
 
+    [SerializeField] private float speed;
+
     private void Update()
     {
         Move(Time.deltaTime);
@@ -48,5 +50,21 @@ public class BallView : MonoBehaviour
                 velocity.y = -velocity.y;
                 break;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var paddle = other.GetComponentInParent<PaddleView>();
+        if (paddle != null)
+        {
+            paddle.GetHitBy(this);
+            ReflectFromPaddle(paddle);
+        }
+    }
+
+    private void ReflectFromPaddle(PaddleView paddle)
+    {
+        var newDirection = (transform.position - paddle.transform.position).normalized;
+        velocity = speed * newDirection;
     }
 }

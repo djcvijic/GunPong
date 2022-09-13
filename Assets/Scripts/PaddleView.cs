@@ -76,8 +76,13 @@ public class PaddleView : MonoBehaviour
         bullet.Initialize(Owner, bulletVelocity);
     }
 
-    public void GetHitBy(BulletView bulletView)
+    public void GetHitBy(BulletView bullet)
     {
         Debug.Log("OUCH");
+    }
+
+    public void GetHitBy(BallView ball)
+    {
+        Debug.Log(isLocalPlayer ? "PING" : "PONG");
     }
 }
