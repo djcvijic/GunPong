@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class BallView : MonoBehaviour
 {
-    private Vector3 velocity;
+    [SerializeField] private Transform chassis;
+
+    [SerializeField] private Vector3 velocity;
 
     private void Update()
     {
         Move(Time.deltaTime);
 
-        ReactIfLeavingBounds(GameView.Instance.GameBounds);
+        AttemptReflectFromBounds(GameView.Instance.GameBounds);
     }
 
     private void Move(float deltaTime)
@@ -16,11 +18,10 @@ public class BallView : MonoBehaviour
         transform.localPosition += deltaTime * velocity;
     }
 
-    private void ReactIfLeavingBounds(GameBoundsView gameBounds)
+    private void AttemptReflectFromBounds(GameBoundsView gameBounds)
     {
-        var t = transform;
-        var position = t.position;
-        var scale = t.lossyScale;
+        var position = chassis.position;
+        var scale = chassis.lossyScale;
         var gameBoundsEdge = gameBounds.Reflect(position, scale, out var reflectedPosition);
         switch (gameBoundsEdge)
         {
@@ -28,7 +29,23 @@ public class BallView : MonoBehaviour
             case GameBoundsEdge.Right:
             case GameBoundsEdge.Bottom:
             case GameBoundsEdge.Top:
-                t.position = reflectedPosition;
+                chassis.position = reflectedPosition;
+                ReflectVelocity(gameBoundsEdge);
+                break;
+        }
+    }
+
+    private void ReflectVelocity(GameBoundsEdge gameBoundsEdge)
+    {
+        switch (gameBoundsEdge)
+        {
+            case GameBoundsEdge.Left:
+            case GameBoundsEdge.Right:
+                velocity.x = -velocity.x;
+                break;
+            case GameBoundsEdge.Bottom:
+            case GameBoundsEdge.Top:
+                velocity.y = -velocity.y;
                 break;
         }
     }
