@@ -20,7 +20,7 @@ public class BallView : MonoBehaviour
 
     private void AttemptReflectFromBounds(GameBoundsView gameBounds)
     {
-        var position = chassis.position;
+        var position = transform.position;
         var scale = chassis.lossyScale;
         var gameBoundsEdge = gameBounds.Reflect(position, scale, out var reflectedPosition);
         switch (gameBoundsEdge)
@@ -29,7 +29,7 @@ public class BallView : MonoBehaviour
             case GameBoundsEdge.Right:
             case GameBoundsEdge.Bottom:
             case GameBoundsEdge.Top:
-                chassis.position = reflectedPosition;
+                transform.position = reflectedPosition;
                 ReflectVelocity(gameBoundsEdge);
                 break;
         }
