@@ -51,9 +51,9 @@ public class PaddleView : MonoBehaviour
     {
         var position = transform.position;
         var chassisScale = chassis.lossyScale;
-        if (gameBounds.KeepInBounds(ref position, chassisScale))
+        if (gameBounds.KeepInBoundsPadded(position, chassisScale, out var constrainedPosition))
         {
-            transform.position = position;
+            transform.position = constrainedPosition;
         }
     }
 
