@@ -1,15 +1,26 @@
 using UnityEngine;
 
+public enum GameBoundsEdge
+{
+    None,
+    Left,
+    Right,
+    Bottom,
+    Top,
+    Rear,
+    Front
+}
+
 public class GameBoundsView : MonoBehaviour
 {
     [SerializeField] private bool constrainX;
 
     [SerializeField, Range(0f, 1f)] private float paddingFactorX;
-    
+
     [SerializeField] private bool constrainY;
 
     [SerializeField, Range(0f, 1f)] private float paddingFactorY;
-    
+
     [SerializeField] private bool constrainZ;
 
     [SerializeField, Range(0f, 1f)] private float paddingFactorZ;
@@ -25,7 +36,7 @@ public class GameBoundsView : MonoBehaviour
     public GameBoundsEdge Reflect(Vector3 position, Vector3 scale, out Vector3 reflectedPosition)
     {
         var result = IsLeavingBounds(transform, position, scale,
-            constrainX, constrainY, constrainZ, 0f, 0f, 0f, 
+            constrainX, constrainY, constrainZ, 0f, 0f, 0f,
             out _, out reflectedPosition);
         return result;
     }

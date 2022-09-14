@@ -1,5 +1,12 @@
 using UnityEngine;
 
+public enum PlayerEnum
+{
+    Undefined,
+    Player1,
+    Player2
+}
+
 public class GameView : GenericMonoSingleton<GameView>
 {
     [SerializeField] private GameBoundsView gameBounds;
