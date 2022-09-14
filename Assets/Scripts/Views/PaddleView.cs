@@ -18,25 +18,34 @@ public class PaddleView : MonoBehaviour
 
     private float timeSinceLastFire;
 
+    public PlayerEnum Owner { get; private set; }
+
+    private PaddleBrain brain;
+
     public bool IsLocalPlayer => isLocalPlayer;
 
-    public PlayerEnum Owner => GameView.Instance.GetOwner(this);
+    private void Start()
+    {
+        GameView.Instance.InitializeMe(this);
+    }
+
+    public void Initialize(PlayerEnum newOwner, PaddleBrain newBrain)
+    {
+        Owner = newOwner;
+        brain = newBrain;
+    }
 
     private void Update()
     {
-        var inputHorizontal = 0f;
-        var inputFire = false;
-        if (isLocalPlayer)
-        {
-            inputHorizontal = UIController.Instance.InputHorizontal;
-            inputFire = UIController.Instance.InputFire;
-        }
+        var inputParams = isLocalPlayer
+            ? UIController.Instance.InputParams
+            : brain.Act(Time.deltaTime);
 
-        Move(inputHorizontal, Time.deltaTime);
+        Move(inputParams.Horizontal, Time.deltaTime);
 
         KeepInBounds(GameView.Instance.GameBounds);
 
-        FireIfPossible(inputFire, Time.deltaTime);
+        FireIfPossible(inputParams.Fire, Time.deltaTime);
     }
 
     private void Move(float input, float deltaTime)

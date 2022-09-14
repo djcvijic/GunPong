@@ -13,8 +13,13 @@ public class GameView : GenericMonoSingleton<GameView>
 
     public GameBoundsView GameBounds => gameBounds;
 
-    public PlayerEnum GetOwner(PaddleView paddleView)
+    private PlayerEnum GetOwner(PaddleView paddleView)
     {
         return paddleView.IsLocalPlayer ? PlayerEnum.Player1 : PlayerEnum.Player2;
+    }
+
+    public void InitializeMe(PaddleView paddleView)
+    {
+        paddleView.Initialize(GetOwner(paddleView), new SimplePaddleBrain(this));
     }
 }
