@@ -58,13 +58,28 @@ public class BallView : MonoBehaviour
         if (paddle != null)
         {
             paddle.GetHitBy(this);
-            ReflectFromPaddle(paddle);
+            ReflectFrom(paddle);
+            return;
+        }
+
+        var obstacle = other.GetComponentInParent<ObstacleView>();
+        if (obstacle != null)
+        {
+            obstacle.GetHitBy(this);
+            ReflectFrom(obstacle);
+            return;
         }
     }
 
-    private void ReflectFromPaddle(PaddleView paddle)
+    private void ReflectFrom(PaddleView paddle)
     {
         var newDirection = (transform.position - paddle.transform.position).normalized;
+        velocity = speed * newDirection;
+    }
+
+    private void ReflectFrom(ObstacleView obstacle)
+    {
+        var newDirection = (transform.position - obstacle.transform.position).normalized;
         velocity = speed * newDirection;
     }
 }
