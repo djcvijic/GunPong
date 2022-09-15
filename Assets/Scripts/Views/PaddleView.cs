@@ -24,6 +24,8 @@ public class PaddleView : MonoBehaviour
 
     public bool IsLocalPlayer => isLocalPlayer;
 
+    public float Speed => speed;
+
     private void Start()
     {
         GameView.Instance.InitializeMe(this);
@@ -50,9 +52,10 @@ public class PaddleView : MonoBehaviour
 
     private void Move(float input, float deltaTime)
     {
+        var clampedInput = Mathf.Clamp(input, -1f, 1f);
         var t = transform;
         var position = t.position;
-        position.x += speed * input * deltaTime;
+        position.x += speed * clampedInput * deltaTime;
         t.position = position;
     }
 

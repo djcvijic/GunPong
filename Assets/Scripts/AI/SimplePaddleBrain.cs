@@ -1,26 +1,40 @@
 public class SimplePaddleBrain : PaddleBrain
 {
-    private GameView gameView;
+    private readonly GameView gameView;
 
-    public SimplePaddleBrain(GameView gameView)
+    private readonly PaddleView paddle;
+
+    public SimplePaddleBrain(GameView gameView, PaddleView paddle)
     {
         this.gameView = gameView;
+        this.paddle = paddle;
     }
 
     public InputParams Act(float deltaTime)
     {
-        var inputHorizontal = MoveToFollowBall();
-        var inputFire = FireIfEnemyInSights();
+        var inputHorizontal = MoveToFollowBall(deltaTime);
+        var inputFire = FireIfEnemyAhead();
         return new InputParams(inputHorizontal, inputFire);
     }
 
-    private float MoveToFollowBall()
+    private float MoveToFollowBall(float deltaTime)
     {
-        throw new System.NotImplementedException();
+        var t = paddle.transform;
+        var myX = t.position.x;
+        var ballX = gameView.Ball.transform.position.x;
+        var mySpeed = paddle.Speed;
+        return (ballX - myX) / mySpeed / deltaTime;
     }
 
-    private bool FireIfEnemyInSights()
+    private bool FireIfEnemyAhead()
     {
-        throw new System.NotImplementedException();
+        var myX = paddle.transform.position.x;
+        var enemyPaddle = gameView.GetEnemyPaddle(paddle);
+        var enemyTransform = enemyPaddle.transform;
+        var enemyPositionX = enemyTransform.position.x;
+        var enemyScaleX = enemyTransform.lossyScale.x;
+        var minX = enemyPositionX - 0.5f * enemyScaleX;
+        var maxX = enemyPositionX + 0.5f * enemyScaleX;
+        return myX >= minX && myX <= maxX;
     }
 }
