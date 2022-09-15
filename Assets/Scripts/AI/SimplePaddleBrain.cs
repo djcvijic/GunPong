@@ -19,9 +19,8 @@ public class SimplePaddleBrain : PaddleBrain
 
     private float MoveToFollowBall(float deltaTime)
     {
-        var t = paddle.transform;
-        var myX = t.position.x;
         var ballX = gameView.Ball.transform.position.x;
+        var myX = paddle.transform.position.x;
         var mySpeed = paddle.Speed;
         return (ballX - myX) / mySpeed / deltaTime;
     }
