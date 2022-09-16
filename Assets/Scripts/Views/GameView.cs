@@ -25,7 +25,9 @@ public class GameView : GenericMonoSingleton<GameView>
         base.Awake();
         foreach (var paddle in paddles)
         {
-            paddle.Initialize(DetermineOwner(paddle), new SimplePaddleBrain(this, paddle));
+            var owner = DetermineOwner(paddle);
+            var brain = paddle.IsABottom ? null : new SimplePaddleBrain(this, paddle);
+            paddle.Initialize(owner, brain);
         }
     }
 
