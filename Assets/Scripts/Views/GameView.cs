@@ -31,6 +31,12 @@ public class GameView : GenericMonoSingleton<GameView>
         }
     }
 
+    private void Start()
+    {
+        var player1Paddle = GetPaddle(PlayerEnum.Player1);
+        player1Paddle.AttachBall(ball);
+    }
+
     private PlayerEnum DetermineOwner(PaddleView paddle)
     {
         return paddle.IsABottom ? PlayerEnum.Player1 : PlayerEnum.Player2;

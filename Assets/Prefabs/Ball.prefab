@@ -132,8 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chassis: {fileID: 5229318473323876229}
-  velocity: {x: 1.5, y: 2, z: 0}
-  speed: 2.5
+  speed: 2.75
 --- !u!50 &5229318475007703211
 Rigidbody2D:
   serializedVersion: 4

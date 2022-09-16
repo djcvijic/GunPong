@@ -6,6 +6,8 @@ public class PaddleView : MonoBehaviour
 
     [SerializeField] private Transform muzzle;
 
+    [SerializeField] private Transform ballHolder;
+
     [SerializeField] private float speed = 1f;
 
     [SerializeField] private float fireCooldown = 1f;
@@ -22,9 +24,13 @@ public class PaddleView : MonoBehaviour
 
     private PaddleBrain brain;
 
+    private BallView attachedBall;
+
     public bool IsABottom => isABottom;
 
     public float Speed => speed;
+
+    private bool IsBallAttached => attachedBall != null;
 
     public void Initialize(PlayerEnum newOwner, PaddleBrain newBrain)
     {
@@ -71,7 +77,14 @@ public class PaddleView : MonoBehaviour
         if (!input || timeSinceLastFire < fireCooldown) return;
 
         timeSinceLastFire = 0f;
-        Fire();
+        if (IsBallAttached)
+        {
+            UnattachBall();
+        }
+        else
+        {
+            Fire();
+        }
     }
 
     private void Fire()
@@ -92,5 +105,17 @@ public class PaddleView : MonoBehaviour
     public void GetHitBy(BallView ball)
     {
         Debug.Log(IsABottom ? "PING" : "PONG");
+    }
+
+    public void AttachBall(BallView ball)
+    {
+        ball.AttachTo(ballHolder);
+        attachedBall = ball;
+    }
+
+    private void UnattachBall()
+    {
+        attachedBall.UnattachFrom(this);
+        attachedBall = null;
     }
 }

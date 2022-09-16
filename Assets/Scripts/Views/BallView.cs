@@ -5,15 +5,31 @@ public class BallView : MonoBehaviour
 {
     [SerializeField] private Transform chassis;
 
-    [SerializeField] private Vector3 velocity;
-
     [SerializeField] private float speed;
+
+    private Vector3 velocity;
+
+    private Transform attachPoint;
+
+    private bool IsAttached => attachPoint != null;
 
     private void Update()
     {
-        Move(Time.deltaTime);
+        if (IsAttached)
+        {
+            FollowAttachPoint();
+        }
+        else
+        {
+            Move(Time.deltaTime);
+        }
 
         AttemptReflectFromBounds(GameView.Instance.GameBounds);
+    }
+
+    private void FollowAttachPoint()
+    {
+        transform.position = attachPoint.position;
     }
 
     private void Move(float deltaTime)
@@ -100,5 +116,16 @@ public class BallView : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    public void AttachTo(Transform newAttachPoint)
+    {
+        attachPoint = newAttachPoint;
+    }
+
+    public void UnattachFrom(PaddleView paddle)
+    {
+        attachPoint = null;
+        ReflectFrom(paddle);
     }
 }
