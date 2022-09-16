@@ -10,6 +10,7 @@ public class BulletView : MonoBehaviour
     {
         owner = newOwner;
         velocity = newVelocity;
+        gameObject.SetActive(true);
     }
 
     private void Update()
@@ -54,6 +55,9 @@ public class BulletView : MonoBehaviour
 
     private void Die()
     {
+        if (!gameObject.activeSelf) return;
+
+        gameObject.SetActive(false);
         GenericMonoPool<BulletView>.Instance.Return(this);
     }
 }

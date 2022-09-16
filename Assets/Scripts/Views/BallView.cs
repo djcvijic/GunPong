@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BallView : MonoBehaviour
@@ -66,7 +67,7 @@ public class BallView : MonoBehaviour
         if (obstacle != null)
         {
             obstacle.GetHitBy(this);
-            ReflectFrom(obstacle);
+            ReflectFrom(obstacle, other);
             return;
         }
     }
@@ -77,9 +78,27 @@ public class BallView : MonoBehaviour
         velocity = speed * newDirection;
     }
 
-    private void ReflectFrom(ObstacleView obstacle)
+    private void ReflectFrom(ObstacleView obstacle, Collider2D col)
     {
-        var newDirection = (transform.position - obstacle.transform.position).normalized;
-        velocity = speed * newDirection;
+        var obstacleEdge = obstacle.DetectEdge(col);
+        switch (obstacleEdge)
+        {
+            case CollisionEdge.None:
+                break;
+            case CollisionEdge.Left:
+                velocity.x = -Mathf.Abs(velocity.x);
+                break;
+            case CollisionEdge.Right:
+                velocity.x = Mathf.Abs(velocity.x);
+                break;
+            case CollisionEdge.Bottom:
+                velocity.y = -Mathf.Abs(velocity.y);
+                break;
+            case CollisionEdge.Top:
+                velocity.y = Mathf.Abs(velocity.y);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }
