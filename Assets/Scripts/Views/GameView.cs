@@ -26,7 +26,7 @@ public class GameView : GenericMonoSingleton<GameView>
         foreach (var paddle in paddles)
         {
             var owner = DetermineOwner(paddle);
-            var brain = paddle.IsABottom ? null : new SimplePaddleBrain(this, paddle);
+            var brain = DetermineBrain(paddle);
             paddle.Initialize(owner, brain);
         }
     }
@@ -34,6 +34,11 @@ public class GameView : GenericMonoSingleton<GameView>
     private PlayerEnum DetermineOwner(PaddleView paddle)
     {
         return paddle.IsABottom ? PlayerEnum.Player1 : PlayerEnum.Player2;
+    }
+
+    private SimplePaddleBrain DetermineBrain(PaddleView paddle)
+    {
+        return paddle.IsABottom ? null : new SimplePaddleBrain(this, paddle);
     }
 
     public PaddleView GetEnemyPaddle(PaddleView paddle)
