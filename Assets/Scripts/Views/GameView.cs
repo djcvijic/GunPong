@@ -20,21 +20,17 @@ public class GameView : GenericMonoSingleton<GameView>
 
     public BallView Ball => ball;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        foreach (var paddle in paddles)
-        {
-            var owner = DetermineOwner(paddle);
-            var brain = DetermineBrain(paddle);
-            paddle.Initialize(owner, brain);
-        }
-    }
-
     private void Start()
     {
-        var player1Paddle = GetPaddle(PlayerEnum.Player1);
-        player1Paddle.AttachBall(ball);
+        foreach (var paddle in paddles)
+        {
+            paddle.Owner = DetermineOwner(paddle);
+            paddle.Brain = DetermineBrain(paddle);
+            if (paddle.Owner == PlayerEnum.Player1)
+            {
+                paddle.AttachBall(ball);
+            }
+        }
     }
 
     private PlayerEnum DetermineOwner(PaddleView paddle)
@@ -42,25 +38,13 @@ public class GameView : GenericMonoSingleton<GameView>
         return paddle.IsABottom ? PlayerEnum.Player1 : PlayerEnum.Player2;
     }
 
-    private SimplePaddleBrain DetermineBrain(PaddleView paddle)
+    private PaddleBrain DetermineBrain(PaddleView paddle)
     {
-        return paddle.IsABottom ? null : new SimplePaddleBrain(this, paddle);
+        return paddle.IsABottom ? new LocalPlayerBrain(UIController.Instance) : new SimplePaddleBrain(this, paddle);
     }
 
     public PaddleView GetPaddle(PlayerEnum owner)
     {
         return paddles.Find(x => x.Owner == owner);
-    }
-
-    public bool TryGetInputParams(PaddleView paddle, out InputParams inputParams)
-    {
-        if (paddle.IsABottom)
-        {
-            inputParams = UIController.Instance.InputParams;
-            return true;
-        }
-
-        inputParams = default;
-        return false;
     }
 }

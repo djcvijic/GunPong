@@ -20,9 +20,9 @@ public class PaddleView : MonoBehaviour
 
     private float timeSinceLastFire;
 
-    public PlayerEnum Owner { get; private set; }
+    public PlayerEnum Owner { get; set; }
 
-    private PaddleBrain brain;
+    public PaddleBrain Brain { get; set; }
 
     private BallView attachedBall;
 
@@ -32,18 +32,9 @@ public class PaddleView : MonoBehaviour
 
     private bool IsBallAttached => attachedBall != null;
 
-    public void Initialize(PlayerEnum newOwner, PaddleBrain newBrain)
-    {
-        Owner = newOwner;
-        brain = newBrain;
-    }
-
     private void Update()
     {
-        if (!GameView.Instance.TryGetInputParams(this, out var inputParams))
-        {
-            inputParams = brain.Act(Time.deltaTime);
-        }
+        var inputParams = Brain.Act(Time.deltaTime);
 
         Move(inputParams.Horizontal, Time.deltaTime);
 
