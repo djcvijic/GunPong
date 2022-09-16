@@ -14,28 +14,43 @@ public class GameView : GenericMonoSingleton<GameView>
 
     [SerializeField] private BallView ball;
 
-    private readonly List<PaddleView> paddles = new();
+    [SerializeField] private List<PaddleView> paddles;
 
     public GameBoundsView GameBounds => gameBounds;
 
     public BallView Ball => ball;
 
-    public void InitializeMe(PaddleView paddleView)
+    protected override void Awake()
     {
-        paddleView.Initialize(DetermineOwner(paddleView), new SimplePaddleBrain(this, paddleView));
-        paddles.Add(paddleView);
+        base.Awake();
+        foreach (var paddle in paddles)
+        {
+            paddle.Initialize(DetermineOwner(paddle), new SimplePaddleBrain(this, paddle));
+        }
     }
 
-    private PlayerEnum DetermineOwner(PaddleView paddleView)
+    private PlayerEnum DetermineOwner(PaddleView paddle)
     {
-        return paddleView.name == "BottomPaddle" ? PlayerEnum.Player1 : PlayerEnum.Player2;
+        return paddle.IsABottom ? PlayerEnum.Player1 : PlayerEnum.Player2;
     }
 
-    public PaddleView GetEnemyPaddle(PaddleView paddleView)
+    public PaddleView GetEnemyPaddle(PaddleView paddle)
     {
-        var owner = paddleView.Owner;
+        var owner = paddle.Owner;
         var enemyOwner = owner.GetEnemy();
         var enemyPaddle = paddles.Find(x => x.Owner == enemyOwner);
         return enemyPaddle;
+    }
+
+    public bool TryGetInputParams(PaddleView paddle, out InputParams inputParams)
+    {
+        if (paddle.IsABottom)
+        {
+            inputParams = UIController.Instance.InputParams;
+            return true;
+        }
+
+        inputParams = default;
+        return false;
     }
 }

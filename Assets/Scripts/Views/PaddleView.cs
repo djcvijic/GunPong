@@ -10,7 +10,7 @@ public class PaddleView : MonoBehaviour
 
     [SerializeField] private float fireCooldown = 1f;
 
-    [SerializeField] private bool isLocalPlayer;
+    [SerializeField] private bool isABottom;
 
     [SerializeField] private BulletView bulletPrefab;
 
@@ -22,14 +22,9 @@ public class PaddleView : MonoBehaviour
 
     private PaddleBrain brain;
 
-    public bool IsLocalPlayer => isLocalPlayer;
+    public bool IsABottom => isABottom;
 
     public float Speed => speed;
-
-    private void Start()
-    {
-        GameView.Instance.InitializeMe(this);
-    }
 
     public void Initialize(PlayerEnum newOwner, PaddleBrain newBrain)
     {
@@ -39,9 +34,10 @@ public class PaddleView : MonoBehaviour
 
     private void Update()
     {
-        var inputParams = isLocalPlayer
-            ? UIController.Instance.InputParams
-            : brain.Act(Time.deltaTime);
+        if (!GameView.Instance.TryGetInputParams(this, out var inputParams))
+        {
+            inputParams = brain.Act(Time.deltaTime);
+        }
 
         Move(inputParams.Horizontal, Time.deltaTime);
 
@@ -95,6 +91,6 @@ public class PaddleView : MonoBehaviour
 
     public void GetHitBy(BallView ball)
     {
-        Debug.Log(isLocalPlayer ? "PING" : "PONG");
+        Debug.Log(IsABottom ? "PING" : "PONG");
     }
 }

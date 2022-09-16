@@ -27,7 +27,7 @@ public abstract class GenericMonoSingleton<T> : MonoBehaviour where T : GenericM
         }
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (instance == null)
         {
