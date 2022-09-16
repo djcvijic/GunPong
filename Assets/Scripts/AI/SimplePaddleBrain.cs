@@ -28,7 +28,7 @@ public class SimplePaddleBrain : PaddleBrain
     private bool FireIfEnemyAhead()
     {
         var myX = paddle.transform.position.x;
-        var enemyPaddle = gameView.GetEnemyPaddle(paddle);
+        var enemyPaddle = gameView.GetPaddle(paddle.Owner.GetEnemy());
         var enemyTransform = enemyPaddle.transform;
         var enemyPositionX = enemyTransform.position.x;
         var enemyScaleX = enemyTransform.lossyScale.x;

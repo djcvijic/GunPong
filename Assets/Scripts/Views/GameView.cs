@@ -41,12 +41,9 @@ public class GameView : GenericMonoSingleton<GameView>
         return paddle.IsABottom ? null : new SimplePaddleBrain(this, paddle);
     }
 
-    public PaddleView GetEnemyPaddle(PaddleView paddle)
+    public PaddleView GetPaddle(PlayerEnum owner)
     {
-        var owner = paddle.Owner;
-        var enemyOwner = owner.GetEnemy();
-        var enemyPaddle = paddles.Find(x => x.Owner == enemyOwner);
-        return enemyPaddle;
+        return paddles.Find(x => x.Owner == owner);
     }
 
     public bool TryGetInputParams(PaddleView paddle, out InputParams inputParams)
