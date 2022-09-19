@@ -20,7 +20,7 @@ public class PaddleView : MonoBehaviour
 
     private float timeSinceLastFire;
 
-    public PlayerEnum Owner { get; set; }
+    public Owner Owner { get; set; }
 
     public PaddleBrain Brain { get; set; }
 
@@ -34,6 +34,8 @@ public class PaddleView : MonoBehaviour
 
     private void Update()
     {
+        if (GameView.Instance.GameState != GameState.Playing) return;
+
         var inputParams = Brain.Act(Time.deltaTime);
 
         Move(inputParams.Horizontal, Time.deltaTime);
@@ -90,7 +92,7 @@ public class PaddleView : MonoBehaviour
 
     public void GetHitBy(BulletView bullet)
     {
-        Debug.Log("OUCH");
+        GameView.Instance.BulletHitPaddle(this);
     }
 
     public void GetHitBy(BallView ball)

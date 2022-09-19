@@ -2,11 +2,11 @@ public class SimplePaddleBrain : PaddleBrain
 {
     private const float BallFollowPositionOffsetPercentage = 0.05f;
 
-    private readonly GameView gameView;
+    private GameView gameView;
 
-    private readonly PaddleView paddle;
+    private PaddleView paddle;
 
-    public SimplePaddleBrain(GameView gameView, PaddleView paddle)
+    public void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle)
     {
         this.gameView = gameView;
         this.paddle = paddle;

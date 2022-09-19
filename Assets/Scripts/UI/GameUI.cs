@@ -12,11 +12,19 @@ public struct InputParams
     }
 }
 
-public class UIController : GenericMonoSingleton<UIController>
+public class GameUI : GenericMonoSingleton<GameUI>
 {
+    [SerializeField] private MainMenuUI mainMenuUI;
+
+    [SerializeField] private CalloutUI calloutUI;
+
     [SerializeField] private Joystick joystick;
 
     [SerializeField] private UIButton fireButton;
+
+    public MainMenuUI MainMenuUI => mainMenuUI;
+
+    public CalloutUI CalloutUI => calloutUI;
 
     public InputParams InputParams => new(joystick.Horizontal, fireButton.Input);
 }

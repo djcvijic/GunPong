@@ -1,14 +1,14 @@
 public class LocalPlayerBrain : PaddleBrain
 {
-    private readonly UIController uiController;
+    private GameUI gameUI;
 
-    public LocalPlayerBrain(UIController uiController)
+    public void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle)
     {
-        this.uiController = uiController;
+        this.gameUI = gameUI;
     }
 
     public InputParams Act(float deltaTime)
     {
-        return uiController.InputParams;
+        return gameUI.InputParams;
     }
 }

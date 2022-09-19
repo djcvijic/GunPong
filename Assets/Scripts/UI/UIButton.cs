@@ -5,7 +5,9 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(RectTransform))]
 public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public event Action OnChange;
+    public event Action OnPress;
+
+    public event Action OnRelease;
 
     [SerializeField, Range(0f, 1f)] private float scaleWhenPressed = 1f;
 
@@ -23,7 +25,7 @@ public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         Input = true;
-        OnChange?.Invoke();
+        OnPress?.Invoke();
         originalScale = rectTransform.localScale;
         ScaleFromCenter(rectTransform, originalScale * scaleWhenPressed);
     }
@@ -31,7 +33,7 @@ public class UIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerUp(PointerEventData eventData)
     {
         Input = false;
-        OnChange?.Invoke();
+        OnRelease?.Invoke();
         ScaleFromCenter(rectTransform, originalScale);
     }
 

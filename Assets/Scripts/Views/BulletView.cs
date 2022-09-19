@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class BulletView : MonoBehaviour
 {
-    private PlayerEnum owner;
+    private Owner owner;
 
     private Vector3 velocity;
 
-    public void Initialize(PlayerEnum newOwner, Vector3 newVelocity)
+    public void Initialize(Owner newOwner, Vector3 newVelocity)
     {
         owner = newOwner;
         velocity = newVelocity;
@@ -59,5 +59,10 @@ public class BulletView : MonoBehaviour
 
         gameObject.SetActive(false);
         GenericMonoPool<BulletView>.Instance.Return(this);
+    }
+
+    public void Kill()
+    {
+        Die();
     }
 }

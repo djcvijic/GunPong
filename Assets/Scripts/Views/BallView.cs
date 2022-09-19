@@ -24,7 +24,7 @@ public class BallView : MonoBehaviour
             Move(Time.deltaTime);
         }
 
-        AttemptReflectFromBounds(GameView.Instance.GameBounds);
+        AttemptCollideWithBounds(GameView.Instance.GameBounds);
     }
 
     private void FollowAttachPoint()
@@ -37,7 +37,7 @@ public class BallView : MonoBehaviour
         transform.localPosition += deltaTime * velocity;
     }
 
-    private void AttemptReflectFromBounds(GameBoundsView gameBounds)
+    private void AttemptCollideWithBounds(GameBoundsView gameBounds)
     {
         var position = transform.position;
         var scale = chassis.lossyScale;
@@ -46,10 +46,14 @@ public class BallView : MonoBehaviour
         {
             case GameBoundsEdge.Left:
             case GameBoundsEdge.Right:
-            case GameBoundsEdge.Bottom:
-            case GameBoundsEdge.Top:
                 transform.position = reflectedPosition;
                 ReflectVelocity(gameBoundsEdge);
+                break;
+            case GameBoundsEdge.Bottom:
+                GameView.Instance.BallHitBottom();
+                break;
+            case GameBoundsEdge.Top:
+                GameView.Instance.BallHitTop();
                 break;
         }
     }
