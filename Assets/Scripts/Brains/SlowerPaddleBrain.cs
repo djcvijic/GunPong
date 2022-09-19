@@ -1,5 +1,9 @@
-public class SimplePaddleBrain : PaddleBrain
+using UnityEngine;
+
+public class SlowerPaddleBrain : PaddleBrain
 {
+    private const float SpeedFactor = 0.5f;
+
     private const float BallFollowPositionOffsetPercentage = 0.05f;
 
     private GameView gameView;
@@ -27,7 +31,8 @@ public class SimplePaddleBrain : PaddleBrain
         var myScaleX = myTransform.lossyScale.x;
         var offsetX = BallFollowPositionOffsetPercentage * myScaleX;
         var mySpeed = paddle.Speed;
-        return (ballX - myX + offsetX) / mySpeed / deltaTime;
+        var result = (ballX - myX + offsetX) / mySpeed  / deltaTime;
+        return Mathf.Clamp(result, -SpeedFactor, SpeedFactor);
     }
 
     private bool FireIfEnemyAhead()

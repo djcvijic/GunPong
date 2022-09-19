@@ -23,9 +23,9 @@ public class MainMenuUI : MonoBehaviour
         brainTypes = typeof(PaddleBrain).GetImplementingClasses().ToList();
         var brainNames = brainTypes.ConvertAll(x => new TMP_Dropdown.OptionData(x.Name));
         player1BrainDropdown.options = brainNames;
-        player1BrainDropdown.value = brainNames.FindIndex(x => x.text == nameof(LocalPlayerBrain));
+        player1BrainDropdown.value = brainNames.FindIndex(x => x.text == nameof(LocalPlayerInput));
         player2BrainDropdown.options = brainNames;
-        player2BrainDropdown.value = brainNames.FindIndex(x => x.text != nameof(LocalPlayerBrain));
+        player2BrainDropdown.value = brainNames.FindIndex(x => x.text != nameof(LocalPlayerInput));
         startGameButton.OnRelease += OnClickStartGameButton;
     }
 

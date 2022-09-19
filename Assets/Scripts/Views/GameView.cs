@@ -69,6 +69,10 @@ public class GameView : GenericMonoSingleton<GameView>
 
     [SerializeField] private List<PaddleView> paddles;
 
+    [SerializeField] private Transform topPaddleStartingPoint;
+
+    [SerializeField] private Transform bottomPaddleStartingPoint;
+
     private readonly List<Player> players = new();
 
     public GameState GameState { get; private set; }
@@ -192,6 +196,9 @@ public class GameView : GenericMonoSingleton<GameView>
     private void Setup()
     {
         GameState = GameState.Setup;
+
+        BottomPaddle.transform.position = bottomPaddleStartingPoint.position;
+        TopPaddle.transform.position = topPaddleStartingPoint.position;
 
         GameUI.Instance.MainMenuUI.gameObject.SetActive(true);
     }

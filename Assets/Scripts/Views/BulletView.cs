@@ -15,6 +15,8 @@ public class BulletView : MonoBehaviour
 
     private void Update()
     {
+        if (GameView.Instance.GameState != GameState.Playing) return;
+
         Move(Time.deltaTime);
 
         DieIfOutOfBounds(GameView.Instance.GameBounds);

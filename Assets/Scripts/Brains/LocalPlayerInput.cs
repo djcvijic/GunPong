@@ -1,4 +1,4 @@
-public class LocalPlayerBrain : PaddleBrain
+public class LocalPlayerInput : PaddleBrain
 {
     private GameUI gameUI;
 

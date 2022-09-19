@@ -30,7 +30,7 @@ public class PaddleView : MonoBehaviour
 
     public float Speed => speed;
 
-    private bool IsBallAttached => attachedBall != null;
+    public bool IsBallAttached => attachedBall != null;
 
     private void Update()
     {

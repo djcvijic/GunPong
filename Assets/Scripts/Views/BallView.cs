@@ -19,7 +19,10 @@ public class BallView : MonoBehaviour
         {
             FollowAttachPoint();
         }
-        else
+
+        if (GameView.Instance.GameState != GameState.Playing) return;
+
+        if (!IsAttached)
         {
             Move(Time.deltaTime);
         }
