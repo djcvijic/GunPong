@@ -97,7 +97,7 @@ public class PaddleView : MonoBehaviour
 
     public void GetHitBy(BallView ball)
     {
-        Debug.Log(IsABottom ? "PING" : "PONG");
+        // Debug.Log(IsABottom ? "PING" : "PONG");
     }
 
     public void AttachBall(BallView ball)
