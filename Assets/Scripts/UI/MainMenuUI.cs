@@ -6,45 +6,13 @@ using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
 {
-    private static string PersistedPlayer1Name
-    {
-        get => PlayerPrefs.HasKey("Player1Name") ? PlayerPrefs.GetString("Player1Name") : null;
-        set
-        {
-            if (value != null) PlayerPrefs.SetString("Player1Name", value);
-            else PlayerPrefs.DeleteKey("Player1Name");
-        }
-    }
+    private static readonly PersistedString PersistedPlayer1Name = new("Player1Name");
 
-    private static string PersistedPlayer2Name
-    {
-        get => PlayerPrefs.HasKey("Player2Name") ? PlayerPrefs.GetString("Player2Name") : null;
-        set
-        {
-            if (value != null) PlayerPrefs.SetString("Player2Name", value);
-            else PlayerPrefs.DeleteKey("Player2Name");
-        }
-    }
+    private static readonly PersistedString PersistedPlayer2Name = new("Player2Name");
 
-    private static int? PersistedPlayer1BrainIndex
-    {
-        get => PlayerPrefs.HasKey("Player1BrainIndex") ? PlayerPrefs.GetInt("Player1BrainIndex") : null;
-        set
-        {
-            if (value.HasValue) PlayerPrefs.SetInt("Player1BrainIndex", value.Value);
-            else PlayerPrefs.DeleteKey("Player1BrainIndex");
-        }
-    }
+    private static readonly PersistedInt PersistedPlayer1BrainIndex = new("Player1BrainIndex");
 
-    private static int? PersistedPlayer2BrainIndex
-    {
-        get => PlayerPrefs.HasKey("Player2BrainIndex") ? PlayerPrefs.GetInt("Player2BrainIndex") : null;
-        set
-        {
-            if (value.HasValue) PlayerPrefs.SetInt("Player2BrainIndex", value.Value);
-            else PlayerPrefs.DeleteKey("Player2BrainIndex");
-        }
-    }
+    private static readonly PersistedInt PersistedPlayer2BrainIndex = new("Player2BrainIndex");
 
     [SerializeField] private TMP_InputField player1NameInput;
 
@@ -72,16 +40,16 @@ public class MainMenuUI : MonoBehaviour
 
     private void LoadPlayerPrefs()
     {
-        var loadedPlayer1Name = PersistedPlayer1Name;
+        var loadedPlayer1Name = PersistedPlayer1Name.Get();
         if (!loadedPlayer1Name.IsNullOrEmpty()) player1NameInput.text = loadedPlayer1Name;
 
-        var loadedPlayer2Name = PersistedPlayer2Name;
+        var loadedPlayer2Name = PersistedPlayer2Name.Get();
         if (!loadedPlayer2Name.IsNullOrEmpty()) player2NameInput.text = loadedPlayer2Name;
 
-        var loadedPlayer1BrainIndex = PersistedPlayer1BrainIndex;
+        var loadedPlayer1BrainIndex = PersistedPlayer1BrainIndex.Get();
         if (loadedPlayer1BrainIndex.HasValue) player1BrainDropdown.value = loadedPlayer1BrainIndex.Value;
 
-        var loadedPlayer2BrainIndex = PersistedPlayer2BrainIndex;
+        var loadedPlayer2BrainIndex = PersistedPlayer2BrainIndex.Get();
         if (loadedPlayer2BrainIndex.HasValue) player2BrainDropdown.value = loadedPlayer2BrainIndex.Value;
     }
 
@@ -96,9 +64,9 @@ public class MainMenuUI : MonoBehaviour
 
     private void SavePlayerPrefs()
     {
-        PersistedPlayer1Name = player1NameInput.text;
-        PersistedPlayer2Name = player2NameInput.text;
-        PersistedPlayer1BrainIndex = player1BrainDropdown.value;
-        PersistedPlayer2BrainIndex = player2BrainDropdown.value;
+        PersistedPlayer1Name.Set(player1NameInput.text);
+        PersistedPlayer2Name.Set(player2NameInput.text);
+        PersistedPlayer1BrainIndex.Set(player1BrainDropdown.value);
+        PersistedPlayer2BrainIndex.Set(player2BrainDropdown.value);
     }
 }
