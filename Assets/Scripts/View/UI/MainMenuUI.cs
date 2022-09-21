@@ -33,7 +33,7 @@ public class MainMenuUI : MonoBehaviour
         player1BrainDropdown.options = brainNames;
         player1BrainDropdown.value = brainNames.FindIndex(x => x.text == nameof(LocalPlayerInput));
         player2BrainDropdown.options = brainNames;
-        player2BrainDropdown.value = brainNames.FindIndex(x => x.text != nameof(LocalPlayerInput));
+        player2BrainDropdown.value = brainNames.FindIndex(x => x.text == nameof(SlowerPaddleBrain));
         LoadPlayerPrefs();
         startGameButton.OnRelease += OnClickStartGameButton;
     }
