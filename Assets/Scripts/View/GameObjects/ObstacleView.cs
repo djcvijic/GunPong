@@ -1,14 +1,5 @@
 using UnityEngine;
 
-public enum CollisionEdge
-{
-    None,
-    Left,
-    Right,
-    Bottom,
-    Top
-}
-
 public class ObstacleView : MonoBehaviour
 {
     [SerializeField] private Collider2D leftCollider;

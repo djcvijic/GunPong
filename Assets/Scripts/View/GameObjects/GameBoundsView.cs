@@ -1,16 +1,5 @@
 using UnityEngine;
 
-public enum GameBoundsEdge
-{
-    None,
-    Left,
-    Right,
-    Bottom,
-    Top,
-    Rear,
-    Front
-}
-
 public class GameBoundsView : MonoBehaviour
 {
     [SerializeField] private bool constrainX;
