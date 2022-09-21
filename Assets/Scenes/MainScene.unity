@@ -885,6 +885,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1150929949099564536, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276524942674976818, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2276524942674976818, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2814043752794459288, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2814043752794459288, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990829242806825298, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5480991436929491482, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5480991436929491482, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397751030127660720, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8397751030127660720, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61b97a9258ac34f23a3a0e06056acecc, type: 3}
 --- !u!1001 &1900783308374387985

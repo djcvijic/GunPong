@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum GameState
 {
-    Setup,
+    PreGame,
     PrepareServe,
     Playing,
     GameOver,
@@ -48,6 +48,7 @@ public class Player
     public void LoseLife()
     {
         CurrentLives--;
+        CurrentHealth = MaxHealthPerLife;
     }
 
     public void LoseHealth()
@@ -55,8 +56,7 @@ public class Player
         CurrentHealth--;
         if (CurrentHealth <= 0)
         {
-            CurrentLives--;
-            CurrentHealth = MaxHealthPerLife;
+            LoseLife();
         }
     }
 }
@@ -87,7 +87,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private void Start()
     {
-        Setup();
+        StartMainMenu();
     }
 
     private Owner DetermineOwner(PaddleView paddle)
@@ -134,6 +134,15 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private void ReactToPlayerStatus(Player player, int previousLives)
     {
+        if (GetPaddle(player.Owner).IsABottom)
+        {
+            GameUI.Instance.UpdateBottomPlayerLife(player);
+        }
+        else
+        {
+            GameUI.Instance.UpdateTopPlayerLife(player);
+        }
+
         if (player.IsDead)
         {
             GameOver();
@@ -190,15 +199,12 @@ public class GameView : GenericMonoSingleton<GameView>
         var winner = players.Find(x => !x.IsDead);
         yield return GameUI.Instance.CalloutUI.Show(5f, $"GAME OVER! {winner.PlayerName} WINS!");
 
-        Setup();
+        StartMainMenu();
     }
 
-    private void Setup()
+    private void StartMainMenu()
     {
-        GameState = GameState.Setup;
-
-        BottomPaddle.transform.position = bottomPaddleStartingPoint.position;
-        TopPaddle.transform.position = topPaddleStartingPoint.position;
+        GameState = GameState.PreGame;
 
         GameUI.Instance.MainMenuUI.gameObject.SetActive(true);
     }
@@ -214,6 +220,13 @@ public class GameView : GenericMonoSingleton<GameView>
             paddle.Owner = DetermineOwner(paddle);
             paddle.Brain = DetermineBrain(paddle);
         }
+
+        BottomPaddle.transform.position = bottomPaddleStartingPoint.position;
+        TopPaddle.transform.position = topPaddleStartingPoint.position;
+
+        var topPlayer = GetPlayer(TopPaddle.Owner);
+        var bottomPlayer = GetPlayer(BottomPaddle.Owner);
+        GameUI.Instance.Initialize(topPlayer, bottomPlayer);
 
         PrepareServe(Owner.Player1);
     }
