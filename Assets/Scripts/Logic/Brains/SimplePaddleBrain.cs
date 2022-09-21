@@ -35,7 +35,7 @@ public class SimplePaddleBrain : PaddleBrain
         if (paddle.IsBallAttached) return true;
 
         var myX = paddle.transform.position.x;
-        var enemyPaddle = gameView.GetPaddle(paddle.Owner.GetEnemy());
+        var enemyPaddle = gameView.GetEnemyPaddle(paddle.Owner);
         var enemyTransform = enemyPaddle.transform;
         var enemyPositionX = enemyTransform.position.x;
         var enemyScaleX = enemyTransform.lossyScale.x;

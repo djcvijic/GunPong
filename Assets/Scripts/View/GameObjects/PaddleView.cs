@@ -20,7 +20,7 @@ public class PaddleView : MonoBehaviour
 
     private float timeSinceLastFire;
 
-    public Owner Owner { get; set; }
+    public Player Owner { get; set; }
 
     public PaddleBrain Brain { get; set; }
 

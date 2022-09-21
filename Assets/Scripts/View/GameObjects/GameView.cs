@@ -11,13 +11,6 @@ public enum GameState
     GameOver,
 }
 
-public enum Owner
-{
-    Undefined,
-    Player1,
-    Player2
-}
-
 public class Player
 {
     private const int MaxLives = 3;
@@ -28,16 +21,13 @@ public class Player
 
     public int CurrentHealth { get; private set; }
 
-    public Player(Owner owner, string playerName, Type brain)
+    public Player(string playerName, Type brain)
     {
-        Owner = owner;
         PlayerName = playerName;
         Brain = brain;
         CurrentLives = MaxLives;
         CurrentHealth = MaxHealthPerLife;
     }
-
-    public Owner Owner { get; }
 
     public string PlayerName { get; }
 
@@ -73,7 +63,9 @@ public class GameView : GenericMonoSingleton<GameView>
 
     [SerializeField] private Transform bottomPaddleStartingPoint;
 
-    private readonly List<Player> players = new();
+    private Player player1;
+
+    private Player player2;
 
     public GameState GameState { get; private set; }
 
@@ -90,27 +82,32 @@ public class GameView : GenericMonoSingleton<GameView>
         StartMainMenu();
     }
 
-    private Owner DetermineOwner(PaddleView paddle)
+    private Player DetermineOwner(PaddleView paddle)
     {
-        return paddle.IsABottom ? Owner.Player1 : Owner.Player2;
+        return paddle.IsABottom ? player1 : player2;
     }
 
     private PaddleBrain DetermineBrain(PaddleView paddle)
     {
-        var player = GetPlayer(paddle.Owner);
+        var player = paddle.Owner;
         var brain = (PaddleBrain)Activator.CreateInstance(player.Brain);
         brain.Initialize(GameUI.Instance, this, paddle);
         return brain;
     }
 
-    public PaddleView GetPaddle(Owner owner)
+    public PaddleView GetPaddle(Player owner)
     {
         return paddles.Find(x => x.Owner == owner);
     }
 
+    public PaddleView GetEnemyPaddle(Player owner)
+    {
+        return paddles.Find(x => x.Owner != owner);
+    }
+
     public void BulletHitPaddle(PaddleView paddle)
     {
-        var player = GetPlayer(paddle.Owner);
+        var player = paddle.Owner;
         var previousLives = player.CurrentLives;
         player.LoseHealth();
         ReactToPlayerStatus(player, previousLives);
@@ -118,7 +115,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     public void BallHitBottom()
     {
-        var player = GetPlayer(BottomPaddle.Owner);
+        var player = BottomPaddle.Owner;
         var previousLives = player.CurrentLives;
         player.LoseLife();
         ReactToPlayerStatus(player, previousLives);
@@ -126,7 +123,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     public void BallHitTop()
     {
-        var player = GetPlayer(TopPaddle.Owner);
+        var player = TopPaddle.Owner;
         var previousLives = player.CurrentLives;
         player.LoseLife();
         ReactToPlayerStatus(player, previousLives);
@@ -134,7 +131,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private void ReactToPlayerStatus(Player player, int previousLives)
     {
-        if (GetPaddle(player.Owner).IsABottom)
+        if (GetPaddle(player).IsABottom)
         {
             GameUI.Instance.UpdateBottomPlayerLife(player);
         }
@@ -149,25 +146,24 @@ public class GameView : GenericMonoSingleton<GameView>
         }
         else if (player.CurrentLives != previousLives)
         {
-            PrepareServe(player.Owner);
+            PrepareServe(player);
         }
     }
 
-    private void PrepareServe(Owner owner)
+    private void PrepareServe(Player player)
     {
         GameState = GameState.PrepareServe;
 
-        StartCoroutine(PrepareServeCoroutine(owner));
+        StartCoroutine(PrepareServeCoroutine(player));
     }
 
-    private IEnumerator PrepareServeCoroutine(Owner owner)
+    private IEnumerator PrepareServeCoroutine(Player player)
     {
         ClearBullets();
 
-        var paddle = GetPaddle(owner);
+        var paddle = GetPaddle(player);
         paddle.AttachBall(ball);
 
-        var player = GetPlayer(owner);
         yield return GameUI.Instance.CalloutUI.Show(2.5f, $"{player.PlayerName} WITH THE SERVE");
 
         GameState = GameState.Playing;
@@ -182,11 +178,6 @@ public class GameView : GenericMonoSingleton<GameView>
         }
     }
 
-    private Player GetPlayer(Owner owner)
-    {
-        return players.Find(x => x.Owner == owner);
-    }
-
     private void GameOver()
     {
         GameState = GameState.GameOver;
@@ -196,7 +187,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private IEnumerator GameOverCoroutine()
     {
-        var winner = players.Find(x => !x.IsDead);
+        var winner = player1.IsDead ? player2 : player1;
         yield return GameUI.Instance.CalloutUI.Show(5f, $"GAME OVER! {winner.PlayerName} WINS!");
 
         StartMainMenu();
@@ -211,9 +202,8 @@ public class GameView : GenericMonoSingleton<GameView>
 
     public void StartGame(string player1Name, Type player1Brain, string player2Name, Type player2Brain)
     {
-        players.Clear();
-        players.Add(new Player(Owner.Player1, player1Name, player1Brain));
-        players.Add(new Player(Owner.Player2, player2Name, player2Brain));
+        player1 = new Player(player1Name, player1Brain);
+        player2 = new Player(player2Name, player2Brain);
 
         foreach (var paddle in paddles)
         {
@@ -224,10 +214,10 @@ public class GameView : GenericMonoSingleton<GameView>
         BottomPaddle.transform.position = bottomPaddleStartingPoint.position;
         TopPaddle.transform.position = topPaddleStartingPoint.position;
 
-        var topPlayer = GetPlayer(TopPaddle.Owner);
-        var bottomPlayer = GetPlayer(BottomPaddle.Owner);
+        var topPlayer = TopPaddle.Owner;
+        var bottomPlayer = BottomPaddle.Owner;
         GameUI.Instance.Initialize(topPlayer, bottomPlayer);
 
-        PrepareServe(Owner.Player1);
+        PrepareServe(player1);
     }
 }

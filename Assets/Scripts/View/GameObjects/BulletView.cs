@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class BulletView : MonoBehaviour
 {
-    private Owner owner;
+    private Player owner;
 
     private Vector3 velocity;
 
-    public void Initialize(Owner newOwner, Vector3 newVelocity)
+    public void Initialize(Player newOwner, Vector3 newVelocity)
     {
         owner = newOwner;
         velocity = newVelocity;
