@@ -95,6 +95,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
         if (player.IsDead)
         {
+            ClearBullets();
             gameFlow.GameOver(GetEnemyPlayer(player));
         }
         else if (player.CurrentLives != previousLives)
