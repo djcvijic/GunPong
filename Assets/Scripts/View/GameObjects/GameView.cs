@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +18,9 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private Player player2;
 
-    public GameState GameState { get; private set; }
+    private readonly GameFlow gameFlow = new();
+
+    public GameState GameState => gameFlow.GameState;
 
     public GameBoundsView GameBounds => gameBounds;
 
@@ -31,7 +32,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private void Start()
     {
-        StartMainMenu();
+        gameFlow.StartMainMenu();
     }
 
     private Player DetermineOwner(PaddleView paddle)
@@ -94,31 +95,18 @@ public class GameView : GenericMonoSingleton<GameView>
 
         if (player.IsDead)
         {
-            GameOver();
+            gameFlow.GameOver(GetEnemyPlayer(player));
         }
         else if (player.CurrentLives != previousLives)
         {
-            PrepareServe(player);
+            ClearBullets();
+            gameFlow.PrepareServe(GetPaddle(player), ball);
         }
     }
 
-    private void PrepareServe(Player player)
+    private Player GetEnemyPlayer(Player player)
     {
-        GameState = GameState.PrepareServe;
-
-        StartCoroutine(PrepareServeCoroutine(player));
-    }
-
-    private IEnumerator PrepareServeCoroutine(Player player)
-    {
-        ClearBullets();
-
-        var paddle = GetPaddle(player);
-        paddle.AttachBall(ball);
-
-        yield return GameUI.Instance.CalloutUI.Show(2.5f, $"{player.PlayerName} WITH THE SERVE");
-
-        GameState = GameState.Playing;
+        return player == player1 ? player2 : player1;
     }
 
     private void ClearBullets()
@@ -128,28 +116,6 @@ public class GameView : GenericMonoSingleton<GameView>
         {
             bullet.Kill();
         }
-    }
-
-    private void GameOver()
-    {
-        GameState = GameState.GameOver;
-
-        StartCoroutine(GameOverCoroutine());
-    }
-
-    private IEnumerator GameOverCoroutine()
-    {
-        var winner = player1.IsDead ? player2 : player1;
-        yield return GameUI.Instance.CalloutUI.Show(5f, $"GAME OVER! {winner.PlayerName} WINS!");
-
-        StartMainMenu();
-    }
-
-    private void StartMainMenu()
-    {
-        GameState = GameState.PreGame;
-
-        GameUI.Instance.MainMenuUI.gameObject.SetActive(true);
     }
 
     public void StartGame(string player1Name, Type player1Brain, string player2Name, Type player2Brain)
@@ -170,6 +136,6 @@ public class GameView : GenericMonoSingleton<GameView>
         var bottomPlayer = BottomPaddle.Owner;
         GameUI.Instance.Initialize(topPlayer, bottomPlayer);
 
-        PrepareServe(player1);
+        gameFlow.PrepareServe(GetPaddle(player1), ball);
     }
 }
