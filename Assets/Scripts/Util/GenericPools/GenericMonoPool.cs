@@ -7,7 +7,7 @@ public class GenericMonoPool<T> : GenericSingleton<GenericMonoPool<T>> where T :
 {
     private readonly Stack<T> inactiveObjects = new();
 
-    public T GetOrCreate(T prefab, Vector3 position, Quaternion rotation)
+    public T GetOrCreate(T prefab, Vector3 position, Quaternion rotation, Transform parent)
     {
         if (inactiveObjects.TryPop(out var obj))
         {
@@ -17,7 +17,7 @@ public class GenericMonoPool<T> : GenericSingleton<GenericMonoPool<T>> where T :
         }
         else
         {
-            obj = Object.Instantiate(prefab, position, rotation, GameView.Instance.transform);
+            obj = Object.Instantiate(prefab, position, rotation, parent);
         }
 
         return obj;

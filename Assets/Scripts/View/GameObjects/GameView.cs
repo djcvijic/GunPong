@@ -18,7 +18,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private Player player2;
 
-    private readonly GameFlow gameFlow = new();
+    private readonly GameFlow gameFlow = new(GameUI.Instance, CoroutineRunner.Instance);
 
     public GameState GameState => gameFlow.GameState;
 

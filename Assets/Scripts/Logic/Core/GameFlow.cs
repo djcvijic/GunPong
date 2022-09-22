@@ -2,20 +2,29 @@ using System.Collections;
 
 public class GameFlow
 {
+    private readonly GameUI gameUI;
+    private readonly CoroutineRunner coroutineRunner;
+
     public GameState GameState { get; private set; }
+
+    public GameFlow(GameUI gameUI, CoroutineRunner coroutineRunner)
+    {
+        this.gameUI = gameUI;
+        this.coroutineRunner = coroutineRunner;
+    }
 
     public void PrepareServe(PaddleView paddle, BallView ball)
     {
         GameState = GameState.PrepareServe;
 
-        CoroutineRunner.Instance.StartCoroutine(PrepareServeCoroutine(paddle, ball));
+        coroutineRunner.StartCoroutine(PrepareServeCoroutine(paddle, ball));
     }
 
     private IEnumerator PrepareServeCoroutine(PaddleView paddle, BallView ball)
     {
         paddle.AttachBall(ball);
 
-        yield return GameUI.Instance.CalloutUI.Show(2.5f, $"{paddle.Owner.PlayerName} WITH THE SERVE");
+        yield return gameUI.CalloutUI.Show(2.5f, $"{paddle.Owner.PlayerName} WITH THE SERVE");
 
         GameState = GameState.Playing;
     }
@@ -24,12 +33,12 @@ public class GameFlow
     {
         GameState = GameState.GameOver;
 
-        CoroutineRunner.Instance.StartCoroutine(GameOverCoroutine(winner));
+        coroutineRunner.StartCoroutine(GameOverCoroutine(winner));
     }
 
     private IEnumerator GameOverCoroutine(Player winner)
     {
-        yield return GameUI.Instance.CalloutUI.Show(5f, $"GAME OVER! {winner.PlayerName} WINS!");
+        yield return gameUI.CalloutUI.Show(5f, $"GAME OVER! {winner.PlayerName} WINS!");
 
         StartMainMenu();
     }
@@ -38,6 +47,6 @@ public class GameFlow
     {
         GameState = GameState.PreGame;
 
-        GameUI.Instance.MainMenuUI.gameObject.SetActive(true);
+        gameUI.MainMenuUI.gameObject.SetActive(true);
     }
 }
