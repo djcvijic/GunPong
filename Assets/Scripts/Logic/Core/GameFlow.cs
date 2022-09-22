@@ -13,6 +13,13 @@ public class GameFlow
         this.coroutineRunner = coroutineRunner;
     }
 
+    public void StartMainMenu()
+    {
+        GameState = GameState.PreGame;
+
+        gameUI.MainMenuUI.gameObject.SetActive(true);
+    }
+
     public void PrepareServe(PaddleView paddle, BallView ball)
     {
         GameState = GameState.PrepareServe;
@@ -41,12 +48,5 @@ public class GameFlow
         yield return gameUI.CalloutUI.Show(5f, $"GAME OVER! {winner.PlayerName} WINS!");
 
         StartMainMenu();
-    }
-
-    public void StartMainMenu()
-    {
-        GameState = GameState.PreGame;
-
-        gameUI.MainMenuUI.gameObject.SetActive(true);
     }
 }

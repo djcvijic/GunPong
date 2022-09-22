@@ -18,7 +18,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private Player player2;
 
-    private readonly GameFlow gameFlow = new(GameUI.Instance, CoroutineRunner.Instance);
+    private GameFlow gameFlow;
 
     public GameState GameState => gameFlow.GameState;
 
@@ -32,6 +32,7 @@ public class GameView : GenericMonoSingleton<GameView>
 
     private void Start()
     {
+        gameFlow = new GameFlow(GameUI.Instance, CoroutineRunner.Instance);
         gameFlow.StartMainMenu();
     }
 
