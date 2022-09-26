@@ -31,10 +31,10 @@ public abstract class GenericMonoSingleton<T> : MonoBehaviour where T : GenericM
     {
         if (instance == null)
         {
-            instance = this as T;
+            instance = (T)this;
             ApplyDontDestroyOnLoadIfNeeded();
         }
-        else
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
@@ -42,9 +42,6 @@ public abstract class GenericMonoSingleton<T> : MonoBehaviour where T : GenericM
 
     private void OnDestroy()
     {
-        if (this == instance)
-        {
-            instance = null;
-        }
+        if (instance == this) instance = null;
     }
 }
