@@ -13,35 +13,35 @@ public class AudioManager : GenericMonoSingleton<AudioManager>,
 
 	private readonly List<AudioSource> soundSources = new();
 
-    private bool musicEnabled;
+    private bool? musicEnabled;
     
-    private bool soundEnabled;
+    private bool? soundEnabled;
 
 	public bool MusicEnabled
     {
-        get => musicEnabled;
+        get => musicEnabled.GetValueOrDefault(true);
         set
         {
-            musicEnabled = value;
-			musicSources.ForEach(s => s.mute = !value);
+	        if (value != musicEnabled)
+	        {
+		        musicEnabled = value;
+		        musicSources.ForEach(s => s.mute = !value);
+	        }
         }
     }
 
 	public bool SoundEnabled
     {
-        get => soundEnabled;
+        get => soundEnabled.GetValueOrDefault(true);
         set
         {
-            soundEnabled = value;
-			soundSources.ForEach(s => s.mute = !value);
+	        if (value != soundEnabled)
+	        {
+		        soundEnabled = value;
+		        soundSources.ForEach(s => s.mute = !value);
+	        }
         }
     }
-
-	private void Start()
-	{
-		SoundEnabled = true;
-		MusicEnabled = true;
-	}
 
 	public void PlayAudio(AudioClipSettings settings)
 	{

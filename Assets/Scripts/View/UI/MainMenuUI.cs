@@ -14,6 +14,10 @@ public class MainMenuUI : MonoBehaviour
 
     private static readonly PersistedInt PersistedPlayer2BrainIndex = new("Player2BrainIndex");
 
+    private static readonly PersistedBool PersistedSoundEnabledValue = new("SoundEnabled");
+
+    private static readonly PersistedBool PersistedMusicEnabledValue = new("MusicEnabled");
+
     [SerializeField] private TMP_InputField player1NameInput;
 
     [SerializeField] private TMP_Dropdown player1BrainDropdown;
@@ -23,6 +27,14 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private TMP_Dropdown player2BrainDropdown;
 
     [SerializeField] private UIButton startGameButton;
+
+    [SerializeField] private UIButton soundEnabledButton;
+
+    [SerializeField] private TMP_Text soundEnabledText;
+
+    [SerializeField] private UIButton musicEnabledButton;
+
+    [SerializeField] private TMP_Text musicEnabledText;
 
     private List<Type> brainTypes;
 
@@ -34,8 +46,12 @@ public class MainMenuUI : MonoBehaviour
         player1BrainDropdown.value = brainNames.FindIndex(x => x.text == nameof(LocalPlayerInput));
         player2BrainDropdown.options = brainNames;
         player2BrainDropdown.value = brainNames.FindIndex(x => x.text == nameof(SlowerPaddleBrain));
+        ApplySoundEnabledValue(true);
+        ApplyMusicEnabledValue(true);
         LoadPlayerPrefs();
         startGameButton.OnRelease += OnClickStartGameButton;
+        soundEnabledButton.OnRelease += OnClickSoundEnabledButton;
+        musicEnabledButton.OnRelease += OnClickMusicEnabledButton;
     }
 
     private void LoadPlayerPrefs()
@@ -51,6 +67,24 @@ public class MainMenuUI : MonoBehaviour
 
         var loadedPlayer2BrainIndex = PersistedPlayer2BrainIndex.Get();
         if (loadedPlayer2BrainIndex.HasValue) player2BrainDropdown.value = loadedPlayer2BrainIndex.Value;
+
+        var loadedSoundEnabledValue = PersistedSoundEnabledValue.Get();
+        if (loadedSoundEnabledValue.HasValue) ApplySoundEnabledValue(loadedSoundEnabledValue.Value);
+
+        var loadedMusicEnabledValue = PersistedMusicEnabledValue.Get();
+        if (loadedMusicEnabledValue.HasValue) ApplyMusicEnabledValue(loadedMusicEnabledValue.Value);
+    }
+
+    private void ApplySoundEnabledValue(bool soundEnabled)
+    {
+        AudioManager.Instance.SoundEnabled = soundEnabled;
+        soundEnabledText.text = soundEnabled ? "MUTE SOUND" : "UNMUTE SOUND";
+    }
+
+    private void ApplyMusicEnabledValue(bool musicEnabled)
+    {
+        AudioManager.Instance.MusicEnabled = musicEnabled;
+        musicEnabledText.text = musicEnabled ? "MUTE MUSIC" : "UNMUTE MUSIC";
     }
 
     private void OnClickStartGameButton()
@@ -62,11 +96,23 @@ public class MainMenuUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void OnClickSoundEnabledButton()
+    {
+        ApplySoundEnabledValue(!AudioManager.Instance.SoundEnabled);
+    }
+
+    private void OnClickMusicEnabledButton()
+    {
+        ApplyMusicEnabledValue(!AudioManager.Instance.MusicEnabled);
+    }
+
     private void SavePlayerPrefs()
     {
         PersistedPlayer1Name.Set(player1NameInput.text);
         PersistedPlayer2Name.Set(player2NameInput.text);
         PersistedPlayer1BrainIndex.Set(player1BrainDropdown.value);
         PersistedPlayer2BrainIndex.Set(player2BrainDropdown.value);
+        PersistedSoundEnabledValue.Set(AudioManager.Instance.SoundEnabled);
+        PersistedMusicEnabledValue.Set(AudioManager.Instance.MusicEnabled);
     }
 }
