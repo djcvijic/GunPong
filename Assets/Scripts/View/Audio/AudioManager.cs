@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AudioManager : GenericMonoSingleton<AudioManager>,
 	IGenericMonoSingletonDontDestroyOnLoad,
@@ -45,18 +47,18 @@ public class AudioManager : GenericMonoSingleton<AudioManager>,
 
 	public void PlayAudio(AudioClipSettings settings)
 	{
-		var sourceList = DetermineSourceList(settings.type);
+		var sourceList = DetermineSourceList(settings.AudioType);
 		AudioSource source = null;
-		switch (settings.limitBehaviour)
+		switch (settings.LimitBehaviour)
 		{
 			case AudioLimitBehaviour.DoNotLimit:
 				break;
 			case AudioLimitBehaviour.DiscardOldInstance:
-				source = FindSourceByClip(sourceList, settings.clip);
+				source = FindSourceByClip(sourceList, settings);
 				if (source != null) source.Stop();
 				break;
 			case AudioLimitBehaviour.DiscardNewInstance:
-				source = FindSourceByClip(sourceList, settings.clip);
+				source = FindSourceByClip(sourceList, settings);
 				if (source != null) return;
 				break;
 			default:
@@ -65,7 +67,7 @@ public class AudioManager : GenericMonoSingleton<AudioManager>,
 
 		if (source == null) source = FindInactiveSource(sourceList);
 
-		if (source == null) source = InstantiateAudioSource(settings.type);
+		if (source == null) source = InstantiateAudioSource(settings.AudioType);
 
 		SetupAndPlayClip(settings, source);
 	}
@@ -96,9 +98,9 @@ public class AudioManager : GenericMonoSingleton<AudioManager>,
 		}
 	}
 
-	private static AudioSource FindSourceByClip(List<AudioSource> sourceList, AudioClip clip)
+	private static AudioSource FindSourceByClip(List<AudioSource> sourceList, AudioClipSettings settings)
 	{
-		return sourceList.Find(s => s.clip == clip);
+		return sourceList.Find(s => settings.Variants.Contains(s.clip));
 	}
 
 	private static AudioSource FindInactiveSource(List<AudioSource> sourceList)
@@ -121,16 +123,16 @@ public class AudioManager : GenericMonoSingleton<AudioManager>,
 
 	private static void SetupAndPlayClip(AudioClipSettings settings, AudioSource source)
 	{
-		source.loop = settings.type == AudioType.Music;
-		source.clip = settings.clip;
-		source.volume = settings.defaultVolume;
+		source.loop = settings.AudioType == AudioType.Music;
+		source.clip = settings.Variants[Random.Range(0, settings.Variants.Length)];
+		source.volume = settings.DefaultVolume;
 		source.Play();
 	}
 
 	public void FadeAudio(AudioClipSettings settings, float fadeTo, float fadeDuration)
 	{
-		var sourceList = DetermineSourceList(settings.type);
-		var source = FindSourceByClip(sourceList, settings.clip);
+		var sourceList = DetermineSourceList(settings.AudioType);
+		var source = FindSourceByClip(sourceList, settings);
 		if (source == null) return;
 
 		if (fadeCoroutines.TryGetValue(settings, out var coroutine)) StopCoroutine(coroutine);

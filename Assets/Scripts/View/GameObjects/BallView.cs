@@ -7,7 +7,7 @@ public class BallView : MonoBehaviour
 
     [SerializeField] private float speed;
 
-    [SerializeField] private AudioClipSettings[] reflectSoundSettings;
+    [SerializeField] private AudioClipSettings reflectSoundSettings;
 
     private Vector3 velocity;
 
@@ -53,6 +53,7 @@ public class BallView : MonoBehaviour
             case GameBoundsEdge.Right:
                 transform.position = reflectedPosition;
                 ReflectVelocity(gameBoundsEdge);
+                GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
                 break;
             case GameBoundsEdge.Bottom:
                 GameView.Instance.BallHitBottom();
@@ -87,6 +88,7 @@ public class BallView : MonoBehaviour
         {
             paddle.GetHitBy(this);
             ReflectFrom(paddle);
+            GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
             return;
         }
 
@@ -95,6 +97,7 @@ public class BallView : MonoBehaviour
         {
             obstacle.GetHitBy(this);
             ReflectFrom(obstacle, other);
+            GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
             return;
         }
     }
@@ -103,9 +106,6 @@ public class BallView : MonoBehaviour
     {
         var newDirection = (transform.position - paddle.transform.position).normalized;
         velocity = speed * newDirection;
-        GameView.Instance.AudioManager.PlayAudio(
-            reflectSoundSettings[0]
-        );
     }
 
     private void ReflectFrom(ObstacleView obstacle, Collider2D col)
@@ -130,10 +130,6 @@ public class BallView : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
-        GameView.Instance.AudioManager.PlayAudio(
-            reflectSoundSettings[1]
-        );
     }
 
     public void AttachTo(Transform newAttachPoint)
@@ -145,5 +141,6 @@ public class BallView : MonoBehaviour
     {
         attachPoint = null;
         ReflectFrom(paddle);
+        GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
     }
 }

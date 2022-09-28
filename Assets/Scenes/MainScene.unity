@@ -508,16 +508,8 @@ MonoBehaviour:
   - {fileID: 1815696887}
   topPaddleStartingPoint: {fileID: 979993190}
   bottomPaddleStartingPoint: {fileID: 510381730}
-  musicSettings:
-    type: 1
-    clip: {fileID: 8300000, guid: 9dbaa7d4b3a7446858d00dcde4250e70, type: 3}
-    defaultVolume: 0.5
-    limitBehaviour: 1
-  dieSoundSettings:
-    type: 0
-    clip: {fileID: 8300000, guid: 9b9ffb9d97e4d4217bbd302db41b2deb, type: 3}
-    defaultVolume: 0.8
-    limitBehaviour: 1
+  musicSettings: {fileID: 11400000, guid: 89316822875e941efaa0773e86de9748, type: 2}
+  dieSoundSettings: {fileID: 11400000, guid: b547dc4c360dd4439b10b581d24870c7, type: 2}
 --- !u!4 &773243165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4044373557940080931, guid: 3e75d67f783ab4de99818d54568cbdd6, type: 3}

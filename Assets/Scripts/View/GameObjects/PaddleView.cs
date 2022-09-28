@@ -18,9 +18,9 @@ public class PaddleView : MonoBehaviour
 
     [SerializeField] private float bulletSpeed = 1f;
 
-    [SerializeField] private AudioClipSettings[] fireSoundSettings;
+    [SerializeField] private AudioClipSettings fireSoundSettings;
 
-    [SerializeField] private AudioClipSettings[] hurtSoundSettings;
+    [SerializeField] private AudioClipSettings hurtSoundSettings;
 
     [SerializeField] private AudioClipSettings pingSoundSettings;
 
@@ -97,13 +97,13 @@ public class PaddleView : MonoBehaviour
         var bullet = GenericMonoPool<BulletView>.Instance.GetOrCreate(
             bulletPrefab, bulletPosition, bulletRotation, GameView.Instance.transform);
         bullet.Initialize(Owner, bulletVelocity);
-        GameView.Instance.AudioManager.PlayAudio(fireSoundSettings[Random.Range(0, fireSoundSettings.Length)]);
+        GameView.Instance.AudioManager.PlayAudio(fireSoundSettings);
     }
 
     public void GetHitBy(BulletView bullet)
     {
         GameView.Instance.BulletHitPaddle(this);
-        GameView.Instance.AudioManager.PlayAudio(hurtSoundSettings[Random.Range(0, hurtSoundSettings.Length)]);
+        GameView.Instance.AudioManager.PlayAudio(hurtSoundSettings);
     }
 
     public void GetHitBy(BallView ball)

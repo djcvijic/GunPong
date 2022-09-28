@@ -1,14 +1,21 @@
-using System;
 using UnityEngine;
 
-[Serializable]
-public class AudioClipSettings
+[CreateAssetMenu]
+public class AudioClipSettings : ScriptableObject
 {
-    public AudioType type;
+    [SerializeField] private AudioType audioType;
 
-    public AudioClip clip;
+    [SerializeField] private AudioClip[] variants;
 
-    [Range(0, 1)] public float defaultVolume = 0.5f;
+    [SerializeField, Range(0, 1)] private float defaultVolume = 0.8f;
 
-    public AudioLimitBehaviour limitBehaviour;
+    [SerializeField] private AudioLimitBehaviour limitBehaviour;
+
+    public AudioType AudioType => audioType;
+
+    public AudioClip[] Variants => variants;
+
+    public float DefaultVolume => defaultVolume;
+
+    public AudioLimitBehaviour LimitBehaviour => limitBehaviour;
 }
