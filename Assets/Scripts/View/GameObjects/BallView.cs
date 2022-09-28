@@ -7,6 +7,8 @@ public class BallView : MonoBehaviour
 
     [SerializeField] private float speed;
 
+    [SerializeField] private AudioClipSettings[] reflectSoundSettings;
+
     private Vector3 velocity;
 
     private Transform attachPoint;
@@ -78,6 +80,8 @@ public class BallView : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (GameView.Instance.GameState != GameState.Playing) return;
+
         var paddle = other.GetComponentInParent<PaddleView>();
         if (paddle != null)
         {
@@ -99,6 +103,9 @@ public class BallView : MonoBehaviour
     {
         var newDirection = (transform.position - paddle.transform.position).normalized;
         velocity = speed * newDirection;
+        GameView.Instance.AudioManager.PlayAudio(
+            reflectSoundSettings[0]
+        );
     }
 
     private void ReflectFrom(ObstacleView obstacle, Collider2D col)
@@ -123,6 +130,10 @@ public class BallView : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        GameView.Instance.AudioManager.PlayAudio(
+            reflectSoundSettings[1]
+        );
     }
 
     public void AttachTo(Transform newAttachPoint)

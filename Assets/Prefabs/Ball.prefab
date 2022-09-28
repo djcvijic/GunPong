@@ -133,6 +133,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chassis: {fileID: 5229318473323876229}
   speed: 2.75
+  reflectSoundSettings:
+  - type: 0
+    clip: {fileID: 8300000, guid: 3fcb1c7a382724078bb6007e821b678f, type: 3}
+    defaultVolume: 0.8
+    limitBehaviour: 0
+  - type: 0
+    clip: {fileID: 8300000, guid: d4a45a9c4ece74e55aaa7ece55f34ba5, type: 3}
+    defaultVolume: 0.8
+    limitBehaviour: 0
 --- !u!50 &5229318475007703211
 Rigidbody2D:
   serializedVersion: 4

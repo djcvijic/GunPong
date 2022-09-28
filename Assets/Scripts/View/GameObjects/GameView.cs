@@ -16,6 +16,8 @@ public class GameView : GenericMonoSingleton<GameView>
 
     [SerializeField] private AudioClipSettings musicSettings;
 
+    [SerializeField] private AudioClipSettings dieSoundSettings;
+
     private Player player1;
 
     private Player player2;
@@ -103,11 +105,13 @@ public class GameView : GenericMonoSingleton<GameView>
         {
             ClearBullets();
             gameFlow.GameOver(GetEnemyPlayer(player));
+            AudioManager.PlayAudio(dieSoundSettings);
         }
         else if (player.CurrentLives != previousLives)
         {
             ClearBullets();
             gameFlow.PrepareServe(GetPaddle(player), ball);
+            AudioManager.PlayAudio(dieSoundSettings);
         }
     }
 

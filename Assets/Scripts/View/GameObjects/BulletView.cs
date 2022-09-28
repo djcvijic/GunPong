@@ -40,6 +40,8 @@ public class BulletView : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (GameView.Instance.GameState != GameState.Playing) return;
+
         var paddle = other.GetComponentInParent<PaddleView>();
         if (paddle != null && paddle.Owner != owner)
         {

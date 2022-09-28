@@ -1,6 +1,6 @@
 public enum AudioLimitBehaviour
 {
-    DoNotLimit = 0,
-    DiscardOldInstance = 1,
-    DiscardNewInstance = 2,
+    DiscardOldInstance = 0,
+    DiscardNewInstance = 1,
+    DoNotLimit = 2,
 }

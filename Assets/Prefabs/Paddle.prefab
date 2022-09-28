@@ -139,6 +139,34 @@ MonoBehaviour:
   isABottom: 0
   bulletPrefab: {fileID: 7290466554439756981, guid: f42e2b29f19b44de99a19c200c3f6c33, type: 3}
   bulletSpeed: 5
+  fireSoundSettings:
+  - type: 0
+    clip: {fileID: 8300000, guid: 6e64614634b8a43d68d2b8bd9b9daeea, type: 3}
+    defaultVolume: 0.8
+    limitBehaviour: 0
+  - type: 0
+    clip: {fileID: 8300000, guid: 3a7fe6f55a6db46f2945c5689b6d4e64, type: 3}
+    defaultVolume: 0.8
+    limitBehaviour: 0
+  hurtSoundSettings:
+  - type: 0
+    clip: {fileID: 8300000, guid: 900bf966250c9483383dc1815cfd780a, type: 3}
+    defaultVolume: 0.8
+    limitBehaviour: 0
+  - type: 0
+    clip: {fileID: 8300000, guid: c3d7da06098bd489098e94f427e7c601, type: 3}
+    defaultVolume: 0.8
+    limitBehaviour: 0
+  pingSoundSettings:
+    type: 0
+    clip: {fileID: 8300000, guid: c6f5fccff36414121aa5ae5c897c47f2, type: 3}
+    defaultVolume: 0.8
+    limitBehaviour: 0
+  pongSoundSettings:
+    type: 0
+    clip: {fileID: 8300000, guid: b5f303bb4bc854a4aa9a0f66549c201a, type: 3}
+    defaultVolume: 0.8
+    limitBehaviour: 0
 --- !u!1 &1900783309131183332
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class AudioClipSettings
 
     public AudioClip clip;
 
-    [Range(0, 1)] public float defaultVolume = 1;
+    [Range(0, 1)] public float defaultVolume = 0.5f;
 
     public AudioLimitBehaviour limitBehaviour;
 }
