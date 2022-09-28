@@ -1,5 +1,5 @@
 public enum AudioType
 {
-    Music = 0,
-    Sound = 1,
+    Sound = 0,
+    Music = 1,
 }

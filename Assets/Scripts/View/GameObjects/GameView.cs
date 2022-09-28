@@ -14,6 +14,8 @@ public class GameView : GenericMonoSingleton<GameView>
 
     [SerializeField] private Transform bottomPaddleStartingPoint;
 
+    [SerializeField] private AudioClipSettings musicSettings;
+
     private Player player1;
 
     private Player player2;
@@ -21,6 +23,8 @@ public class GameView : GenericMonoSingleton<GameView>
     private GameFlow gameFlow;
 
     public GameState GameState => gameFlow.GameState;
+
+    public AudioManager AudioManager => AudioManager.Instance;
 
     public GameBoundsView GameBounds => gameBounds;
 
@@ -34,6 +38,7 @@ public class GameView : GenericMonoSingleton<GameView>
     {
         gameFlow = new GameFlow(GameUI.Instance, CoroutineRunner.Instance);
         gameFlow.StartMainMenu();
+        AudioManager.PlayAudio(musicSettings);
     }
 
     private Player DetermineOwner(PaddleView paddle)

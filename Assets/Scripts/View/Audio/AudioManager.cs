@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : GenericMonoSingleton<AudioManager>, IGenericMonoSingletonDontDestroyOnLoad
+public class AudioManager : GenericMonoSingleton<AudioManager>,
+	IGenericMonoSingletonDontDestroyOnLoad,
+	IGenericMonoSingletonSelfInstantiating
 {
 	private readonly Dictionary<AudioClipSettings, Coroutine> fadeCoroutines = new();
 
