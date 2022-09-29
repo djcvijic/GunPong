@@ -6,22 +6,18 @@ namespace View.GameViews
 {
     public class GameBoundsView : MonoBehaviour
     {
-        [SerializeField] private bool constrainX;
+        [SerializeField] private Transform paddedBounds;
 
-        [SerializeField, Range(0f, 1f)] private float paddingFactorX;
+        [SerializeField] private bool constrainX;
 
         [SerializeField] private bool constrainY;
 
-        [SerializeField, Range(0f, 1f)] private float paddingFactorY;
-
         [SerializeField] private bool constrainZ;
-
-        [SerializeField, Range(0f, 1f)] private float paddingFactorZ;
 
         public bool KeepInBoundsPadded(Vector3 position, Vector3 scale, out Vector3 clampedPosition)
         {
             var result = IsLeavingBounds(transform, position, scale,
-                constrainX, constrainY, constrainZ, paddingFactorX, paddingFactorY, paddingFactorZ,
+                paddedBounds.localScale, constrainX, constrainY, constrainZ,
                 out clampedPosition, out _);
             return result != GameBoundsEdge.None;
         }
@@ -29,13 +25,13 @@ namespace View.GameViews
         public GameBoundsEdge Reflect(Vector3 position, Vector3 scale, out Vector3 reflectedPosition)
         {
             var result = IsLeavingBounds(transform, position, scale,
-                constrainX, constrainY, constrainZ, 0f, 0f, 0f,
+                Vector3.one, constrainX, constrainY, constrainZ,
                 out _, out reflectedPosition);
             return result;
         }
 
         private static GameBoundsEdge IsLeavingBounds(Transform bounds, Vector3 position, Vector3 scale,
-            bool constrainX, bool constrainY, bool constrainZ, float padX, float padY, float padZ,
+            Vector3 paddedScale, bool constrainX, bool constrainY, bool constrainZ,
             out Vector3 clampedPosition, out Vector3 reflectedPosition)
         {
             var boundsPosition = bounds.position;
@@ -46,7 +42,7 @@ namespace View.GameViews
 
             if (constrainX)
             {
-                var minX = boundsPosition.x - 0.5f * (1f - padX) * boundsScale.x + 0.5f * scale.x;
+                var minX = boundsPosition.x - 0.5f * paddedScale.x * boundsScale.x + 0.5f * scale.x;
                 if (position.x < minX)
                 {
                     clampedPosition.x = minX;
@@ -55,7 +51,7 @@ namespace View.GameViews
                 }
                 else
                 {
-                    var maxX = boundsPosition.x + 0.5f * (1f - padX) * boundsScale.x - 0.5f * scale.x;
+                    var maxX = boundsPosition.x + 0.5f * paddedScale.x * boundsScale.x - 0.5f * scale.x;
                     if (position.x > maxX)
                     {
                         clampedPosition.x = maxX;
@@ -67,7 +63,7 @@ namespace View.GameViews
 
             if (constrainY)
             {
-                var minY = boundsPosition.y - 0.5f * (1f - padY) * boundsScale.y + 0.5f * scale.y;
+                var minY = boundsPosition.y - 0.5f * paddedScale.y * boundsScale.y + 0.5f * scale.y;
                 if (position.y < minY)
                 {
                     clampedPosition.y = minY;
@@ -76,7 +72,7 @@ namespace View.GameViews
                 }
                 else
                 {
-                    var maxY = boundsPosition.y + 0.5f * (1f - padY) * boundsScale.y - 0.5f * scale.y;
+                    var maxY = boundsPosition.y + 0.5f * paddedScale.y * boundsScale.y - 0.5f * scale.y;
                     if (position.y > maxY)
                     {
                         clampedPosition.y = maxY;
@@ -88,7 +84,7 @@ namespace View.GameViews
 
             if (constrainZ)
             {
-                var minZ = boundsPosition.z - 0.5f * (1f - padZ) * boundsScale.z + 0.5f * scale.z;
+                var minZ = boundsPosition.z - 0.5f * paddedScale.z * boundsScale.z + 0.5f * scale.z;
                 if (position.z < minZ)
                 {
                     clampedPosition.z = minZ;
@@ -97,7 +93,7 @@ namespace View.GameViews
                 }
                 else
                 {
-                    var maxZ = boundsPosition.z + 0.5f * (1f - padZ) * boundsScale.z - 0.5f * scale.z;
+                    var maxZ = boundsPosition.z + 0.5f * paddedScale.z * boundsScale.z - 0.5f * scale.z;
                     if (position.z > maxZ)
                     {
                         clampedPosition.z = maxZ;
