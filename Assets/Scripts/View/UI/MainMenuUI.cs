@@ -47,7 +47,7 @@ namespace View.UI
 
         private void Start()
         {
-            brainTypes = typeof(PaddleBrain).GetImplementingClasses().ToList();
+            brainTypes = typeof(IPaddleBrain).GetImplementingClasses().ToList();
             var brainNames = brainTypes.ConvertAll(x => new TMP_Dropdown.OptionData(x.Name));
             player1BrainDropdown.options = brainNames;
             player1BrainDropdown.value = brainNames.FindIndex(x => x.text == nameof(LocalPlayerInput));

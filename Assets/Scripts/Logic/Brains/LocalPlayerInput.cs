@@ -1,10 +1,12 @@
+using JetBrains.Annotations;
 using Logic.Core;
 using View.GameViews;
 using View.UI;
 
 namespace Logic.Brains
 {
-    public class LocalPlayerInput : PaddleBrain
+    [UsedImplicitly]
+    public class LocalPlayerInput : IPaddleBrain
     {
         private GameUI gameUI;
 

@@ -4,7 +4,7 @@ using View.UI;
 
 namespace Logic.Brains
 {
-    public interface PaddleBrain
+    public interface IPaddleBrain
     {
         void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle);
 

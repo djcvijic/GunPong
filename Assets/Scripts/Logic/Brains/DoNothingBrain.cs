@@ -1,10 +1,12 @@
+using JetBrains.Annotations;
 using Logic.Core;
 using View.GameViews;
 using View.UI;
 
 namespace Logic.Brains
 {
-    public class DoNothingBrain : PaddleBrain
+    [UsedImplicitly]
+    public class DoNothingBrain : IPaddleBrain
     {
         public void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle) { }
 

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Logic.Core;
 using UnityEngine;
 using View.GameViews;
@@ -5,7 +6,8 @@ using View.UI;
 
 namespace Logic.Brains
 {
-    public class SlowerPaddleBrain : PaddleBrain
+    [UsedImplicitly]
+    public class SlowerPaddleBrain : IPaddleBrain
     {
         private const float SpeedFactor = 0.5f;
 

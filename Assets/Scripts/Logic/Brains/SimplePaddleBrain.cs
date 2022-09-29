@@ -1,10 +1,12 @@
+using JetBrains.Annotations;
 using Logic.Core;
 using View.GameViews;
 using View.UI;
 
 namespace Logic.Brains
 {
-    public class SimplePaddleBrain : PaddleBrain
+    [UsedImplicitly]
+    public class SimplePaddleBrain : IPaddleBrain
     {
         private const float BallFollowPositionOffsetPercentage = 0.05f;
 

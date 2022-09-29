@@ -56,10 +56,10 @@ namespace View.GameViews
             return paddle.IsABottom ? player1 : player2;
         }
 
-        private PaddleBrain DetermineBrain(PaddleView paddle)
+        private IPaddleBrain DetermineBrain(PaddleView paddle)
         {
             var player = paddle.Owner;
-            var brain = (PaddleBrain)Activator.CreateInstance(player.Brain);
+            var brain = (IPaddleBrain)Activator.CreateInstance(player.Brain);
             brain.Initialize(GameUI.Instance, this, paddle);
             return brain;
         }

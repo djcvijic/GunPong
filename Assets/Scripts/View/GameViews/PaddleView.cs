@@ -36,7 +36,7 @@ namespace View.GameViews
 
         public Player Owner { get; set; }
 
-        public PaddleBrain Brain { get; set; }
+        public IPaddleBrain Brain { get; set; }
 
         private BallView attachedBall;
 
