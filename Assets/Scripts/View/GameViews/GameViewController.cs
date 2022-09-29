@@ -18,13 +18,13 @@ namespace View.GameViews
 
         [SerializeField] private List<PaddleView> paddles;
 
-        [SerializeField] private Transform topPaddleStartingPoint;
-
-        [SerializeField] private Transform bottomPaddleStartingPoint;
-
         [SerializeField] private AudioClipSettings musicSettings;
 
         [SerializeField] private AudioClipSettings dieSoundSettings;
+
+        private Vector3 topPaddleStartingPosition;
+
+        private Vector3 bottomPaddleStartingPosition;
 
         private Player player1;
 
@@ -46,6 +46,8 @@ namespace View.GameViews
 
         private void Start()
         {
+            topPaddleStartingPosition = TopPaddle.transform.position;
+            bottomPaddleStartingPosition = BottomPaddle.transform.position;
             gameFlow = new GameFlow(GameUI.Instance, CoroutineRunner.Instance);
             gameFlow.StartMainMenu();
             AudioManager.PlayAudio(musicSettings);
@@ -148,8 +150,8 @@ namespace View.GameViews
                 paddle.Brain = DetermineBrain(paddle);
             }
 
-            BottomPaddle.transform.position = bottomPaddleStartingPoint.position;
-            TopPaddle.transform.position = topPaddleStartingPoint.position;
+            BottomPaddle.transform.position = bottomPaddleStartingPosition;
+            TopPaddle.transform.position = topPaddleStartingPosition;
 
             var topPlayer = TopPaddle.Owner;
             var bottomPlayer = BottomPaddle.Owner;
