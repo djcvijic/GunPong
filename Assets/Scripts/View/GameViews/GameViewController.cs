@@ -29,9 +29,9 @@ namespace View.GameViews
 
         [SerializeField] private AudioClipSettings pongSoundSettings;
 
-        private Vector3 topPaddleStartingPosition;
-
         private Vector3 bottomPaddleStartingPosition;
+
+        private Vector3 topPaddleStartingPosition;
 
         private Player player1;
 
@@ -50,8 +50,8 @@ namespace View.GameViews
         private void Start()
         {
             GameBounds = new GameBounds(gameBoundsTransform, paddedBoundsTransform, true, true, false);
-            topPaddleStartingPosition = topPaddle.transform.position;
             bottomPaddleStartingPosition = bottomPaddle.transform.position;
+            topPaddleStartingPosition = topPaddle.transform.position;
             gameFlow = new GameFlow(GameUI.Instance, CoroutineRunner.Instance);
             gameFlow.StartMainMenu();
             AudioManager.PlayAudio(musicSettings);
