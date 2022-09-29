@@ -6,7 +6,7 @@ namespace Logic.Brains
 {
     public interface IPaddleBrain
     {
-        void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle);
+        void Initialize(GameUI gameUI, GameViewController gameViewController, PaddleView paddle);
 
         InputParams Act(float deltaTime);
     }

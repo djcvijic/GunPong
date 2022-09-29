@@ -27,14 +27,14 @@ namespace View.GameViews
                 FollowAttachPoint();
             }
 
-            if (GameView.Instance.GameState != GameState.Playing) return;
+            if (GameViewController.Instance.GameState != GameState.Playing) return;
 
             if (!IsAttached)
             {
                 Move(Time.deltaTime);
             }
 
-            AttemptCollideWithBounds(GameView.Instance.GameBounds);
+            AttemptCollideWithBounds(GameViewController.Instance.GameBounds);
         }
 
         private void FollowAttachPoint()
@@ -58,13 +58,13 @@ namespace View.GameViews
                 case GameBoundsEdge.Right:
                     transform.position = reflectedPosition;
                     ReflectVelocity(gameBoundsEdge);
-                    GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
+                    GameViewController.Instance.AudioManager.PlayAudio(reflectSoundSettings);
                     break;
                 case GameBoundsEdge.Bottom:
-                    GameView.Instance.BallHitBottom();
+                    GameViewController.Instance.BallHitBottom();
                     break;
                 case GameBoundsEdge.Top:
-                    GameView.Instance.BallHitTop();
+                    GameViewController.Instance.BallHitTop();
                     break;
             }
         }
@@ -86,14 +86,14 @@ namespace View.GameViews
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (GameView.Instance.GameState != GameState.Playing) return;
+            if (GameViewController.Instance.GameState != GameState.Playing) return;
 
             var paddle = other.GetComponentInParent<PaddleView>();
             if (paddle != null)
             {
                 paddle.GetHitBy(this);
                 ReflectFrom(paddle);
-                GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
+                GameViewController.Instance.AudioManager.PlayAudio(reflectSoundSettings);
                 return;
             }
 
@@ -101,7 +101,7 @@ namespace View.GameViews
             if (obstacle != null)
             {
                 ReflectFrom(obstacle, other);
-                GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
+                GameViewController.Instance.AudioManager.PlayAudio(reflectSoundSettings);
                 return;
             }
         }
@@ -145,7 +145,7 @@ namespace View.GameViews
         {
             attachPoint = null;
             ReflectFrom(paddle);
-            GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
+            GameViewController.Instance.AudioManager.PlayAudio(reflectSoundSettings);
         }
     }
 }

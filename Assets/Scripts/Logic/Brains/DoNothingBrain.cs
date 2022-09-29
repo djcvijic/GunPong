@@ -8,7 +8,7 @@ namespace Logic.Brains
     [UsedImplicitly]
     public class DoNothingBrain : IPaddleBrain
     {
-        public void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle) { }
+        public void Initialize(GameUI gameUI, GameViewController gameViewController, PaddleView paddle) { }
 
         public InputParams Act(float deltaTime)
         {

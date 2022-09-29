@@ -13,13 +13,13 @@ namespace Logic.Brains
 
         private const float BallFollowPositionOffsetPercentage = 0.05f;
 
-        private GameView gameView;
+        private GameViewController gameViewController;
 
         private PaddleView paddle;
 
-        public void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle)
+        public void Initialize(GameUI gameUI, GameViewController gameViewController, PaddleView paddle)
         {
-            this.gameView = gameView;
+            this.gameViewController = gameViewController;
             this.paddle = paddle;
         }
 
@@ -32,7 +32,7 @@ namespace Logic.Brains
 
         private float MoveToFollowBall(float deltaTime)
         {
-            var ballX = gameView.Ball.transform.position.x;
+            var ballX = gameViewController.Ball.transform.position.x;
             var myTransform = paddle.transform;
             var myX = myTransform.position.x;
             var myScaleX = myTransform.lossyScale.x;
@@ -47,7 +47,7 @@ namespace Logic.Brains
             if (paddle.IsBallAttached) return true;
 
             var myX = paddle.transform.position.x;
-            var enemyPaddle = gameView.GetEnemyPaddle(paddle.Owner);
+            var enemyPaddle = gameViewController.GetEnemyPaddle(paddle.Owner);
             var enemyTransform = enemyPaddle.transform;
             var enemyPositionX = enemyTransform.position.x;
             var enemyScaleX = enemyTransform.lossyScale.x;

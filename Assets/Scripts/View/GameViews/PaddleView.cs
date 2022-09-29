@@ -48,13 +48,13 @@ namespace View.GameViews
 
         private void Update()
         {
-            if (GameView.Instance.GameState != GameState.Playing) return;
+            if (GameViewController.Instance.GameState != GameState.Playing) return;
 
             var inputParams = Brain.Act(Time.deltaTime);
 
             Move(inputParams.Horizontal, Time.deltaTime);
 
-            KeepInBounds(GameView.Instance.GameBounds);
+            KeepInBounds(GameViewController.Instance.GameBounds);
 
             FireIfPossible(inputParams.Fire, Time.deltaTime);
         }
@@ -101,20 +101,20 @@ namespace View.GameViews
             var bulletDirection = muzzle.up;
             var bulletVelocity = bulletSpeed * bulletDirection;
             var bullet = GenericMonoPool<BulletView>.Instance.GetOrCreate(
-                bulletPrefab, bulletPosition, bulletRotation, GameView.Instance.transform);
+                bulletPrefab, bulletPosition, bulletRotation, GameViewController.Instance.transform);
             bullet.Initialize(Owner, bulletVelocity);
-            GameView.Instance.AudioManager.PlayAudio(fireSoundSettings);
+            GameViewController.Instance.AudioManager.PlayAudio(fireSoundSettings);
         }
 
         public void GetHitBy(BulletView bullet)
         {
-            GameView.Instance.BulletHitPaddle(this);
-            GameView.Instance.AudioManager.PlayAudio(hurtSoundSettings);
+            GameViewController.Instance.BulletHitPaddle(this);
+            GameViewController.Instance.AudioManager.PlayAudio(hurtSoundSettings);
         }
 
         public void GetHitBy(BallView ball)
         {
-            GameView.Instance.AudioManager.PlayAudio(IsABottom ? pingSoundSettings : pongSoundSettings);
+            GameViewController.Instance.AudioManager.PlayAudio(IsABottom ? pingSoundSettings : pongSoundSettings);
         }
 
         public void AttachBall(BallView ball)

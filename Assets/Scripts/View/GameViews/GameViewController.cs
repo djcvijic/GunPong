@@ -10,7 +10,7 @@ using View.UI;
 
 namespace View.GameViews
 {
-    public class GameView : GenericMonoSingleton<GameView>
+    public class GameViewController : GenericMonoSingleton<GameViewController>
     {
         [SerializeField] private GameBoundsView gameBounds;
 

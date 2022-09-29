@@ -99,7 +99,7 @@ namespace View.UI
             SavePlayerPrefs();
             var player1Brain = brainTypes[player1BrainDropdown.value];
             var player2Brain = brainTypes[player2BrainDropdown.value];
-            GameView.Instance.StartGame(player1NameInput.text, player1Brain, player2NameInput.text, player2Brain);
+            GameViewController.Instance.StartGame(player1NameInput.text, player1Brain, player2NameInput.text, player2Brain);
             gameObject.SetActive(false);
         }
 

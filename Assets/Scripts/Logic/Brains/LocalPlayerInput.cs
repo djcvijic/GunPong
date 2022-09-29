@@ -10,7 +10,7 @@ namespace Logic.Brains
     {
         private GameUI gameUI;
 
-        public void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle)
+        public void Initialize(GameUI gameUI, GameViewController gameViewController, PaddleView paddle)
         {
             this.gameUI = gameUI;
         }

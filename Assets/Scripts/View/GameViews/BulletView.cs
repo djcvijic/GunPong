@@ -19,11 +19,11 @@ namespace View.GameViews
 
         private void Update()
         {
-            if (GameView.Instance.GameState != GameState.Playing) return;
+            if (GameViewController.Instance.GameState != GameState.Playing) return;
 
             Move(Time.deltaTime);
 
-            DieIfOutOfBounds(GameView.Instance.GameBounds);
+            DieIfOutOfBounds(GameViewController.Instance.GameBounds);
         }
 
         private void Move(float deltaTime)
@@ -44,7 +44,7 @@ namespace View.GameViews
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (GameView.Instance.GameState != GameState.Playing) return;
+            if (GameViewController.Instance.GameState != GameState.Playing) return;
 
             var paddle = other.GetComponentInParent<PaddleView>();
             if (paddle != null && paddle.Owner != owner)
