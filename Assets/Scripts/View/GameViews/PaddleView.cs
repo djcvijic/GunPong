@@ -53,10 +53,14 @@ namespace View.GameViews
 
         private void Move(float input, float deltaTime)
         {
-            var clampedInput = Mathf.Clamp(input, -1f, 1f);
             var t = transform;
             var position = t.position;
-            position.x += speed * clampedInput * deltaTime;
+            var rotation = t.rotation;
+            var clampedInput = Mathf.Clamp(input, -1f, 1f);
+            var deltaX = speed * clampedInput * deltaTime;
+            var deltaPosition = new Vector3(deltaX, 0f, 0f);
+            var deltaPositionRotated = rotation * deltaPosition;
+            position += deltaPositionRotated;
             t.position = position;
         }
 
