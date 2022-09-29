@@ -114,17 +114,18 @@ namespace View.GameViews
                 GameUI.Instance.UpdateTopPlayerLife(player);
             }
 
-            if (player.IsDead)
+            if (player.CurrentLives != previousLives)
             {
                 ClearBullets();
-                gameFlow.GameOver(GetEnemyPlayer(player));
                 AudioManager.PlayAudio(dieSoundSettings);
-            }
-            else if (player.CurrentLives != previousLives)
-            {
-                ClearBullets();
-                gameFlow.PrepareServe(GetPaddle(player), ball);
-                AudioManager.PlayAudio(dieSoundSettings);
+                if (player.IsDead)
+                {
+                    gameFlow.GameOver(GetEnemyPlayer(player));
+                }
+                else
+                {
+                    gameFlow.PrepareServe(GetPaddle(player), ball);
+                }
             }
         }
 
