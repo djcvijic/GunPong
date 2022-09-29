@@ -10,16 +10,6 @@ namespace View.GameViews
         [SerializeField] private Collider2D bottomCollider;
         [SerializeField] private Collider2D topCollider;
 
-        public void GetHitBy(BallView ball)
-        {
-            // todo
-        }
-
-        public void GetHitBy(BulletView bullet)
-        {
-            // todo
-        }
-
         public CollisionEdge DetectEdge(Collider2D col)
         {
             if (col == leftCollider) return CollisionEdge.Left;

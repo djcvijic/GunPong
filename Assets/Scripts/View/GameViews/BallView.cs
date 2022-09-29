@@ -100,7 +100,6 @@ namespace View.GameViews
             var obstacle = other.GetComponentInParent<ObstacleView>();
             if (obstacle != null)
             {
-                obstacle.GetHitBy(this);
                 ReflectFrom(obstacle, other);
                 GameView.Instance.AudioManager.PlayAudio(reflectSoundSettings);
                 return;

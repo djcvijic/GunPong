@@ -56,7 +56,6 @@ namespace View.GameViews
             var obstacle = other.GetComponentInParent<ObstacleView>();
             if (obstacle != null)
             {
-                obstacle.GetHitBy(this);
                 Die();
             }
         }
