@@ -47,7 +47,7 @@ namespace View.GameViews
             transform.localPosition += deltaTime * velocity;
         }
 
-        private void AttemptCollideWithBounds(GameBoundsView gameBounds)
+        private void AttemptCollideWithBounds(GameBounds gameBounds)
         {
             var position = transform.position;
             var scale = chassis.lossyScale;

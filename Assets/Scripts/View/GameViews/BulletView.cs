@@ -31,7 +31,7 @@ namespace View.GameViews
             transform.localPosition += deltaTime * velocity;
         }
 
-        private void DieIfOutOfBounds(GameBoundsView gameBounds)
+        private void DieIfOutOfBounds(GameBounds gameBounds)
         {
             var t = transform;
             var position = t.position;

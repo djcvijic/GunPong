@@ -367,7 +367,6 @@ GameObject:
   m_Component:
   - component: {fileID: 628349686}
   - component: {fileID: 628349687}
-  - component: {fileID: 628349688}
   m_Layer: 0
   m_Name: GameBounds
   m_TagString: Untagged
@@ -400,22 +399,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628349685}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &628349688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 628349685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7263c03742264cd8927ac6afa3a0cb37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  paddedBounds: {fileID: 669075983}
-  constrainX: 1
-  constrainY: 1
-  constrainZ: 0
 --- !u!1 &637582467
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b19bde5d7e8d40bbb31c9c2b2536b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameBounds: {fileID: 628349688}
+  gameBoundsTransform: {fileID: 628349686}
+  paddedBoundsTransform: {fileID: 669075983}
   ball: {fileID: 1248950851}
   paddles:
   - {fileID: 1765159722}

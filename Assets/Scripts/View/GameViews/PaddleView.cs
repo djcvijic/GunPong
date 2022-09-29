@@ -68,7 +68,7 @@ namespace View.GameViews
             t.position = position;
         }
 
-        private void KeepInBounds(GameBoundsView gameBounds)
+        private void KeepInBounds(GameBounds gameBounds)
         {
             var position = transform.position;
             var chassisScale = chassis.lossyScale;

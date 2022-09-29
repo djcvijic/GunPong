@@ -12,7 +12,9 @@ namespace View.GameViews
 {
     public class GameViewController : GenericMonoSingleton<GameViewController>
     {
-        [SerializeField] private GameBoundsView gameBounds;
+        [SerializeField] private Transform gameBoundsTransform;
+
+        [SerializeField] private Transform paddedBoundsTransform;
 
         [SerializeField] private BallView ball;
 
@@ -36,7 +38,7 @@ namespace View.GameViews
 
         public AudioManager AudioManager => AudioManager.Instance;
 
-        public GameBoundsView GameBounds => gameBounds;
+        public GameBounds GameBounds { get; private set; }
 
         public BallView Ball => ball;
 
@@ -46,6 +48,7 @@ namespace View.GameViews
 
         private void Start()
         {
+            GameBounds = new GameBounds(gameBoundsTransform, paddedBoundsTransform, true, true, false);
             topPaddleStartingPosition = TopPaddle.transform.position;
             bottomPaddleStartingPosition = BottomPaddle.transform.position;
             gameFlow = new GameFlow(GameUI.Instance, CoroutineRunner.Instance);

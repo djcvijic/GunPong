@@ -2,22 +2,33 @@ using UnityEngine;
 using Util.Extensions;
 using View.Common;
 
-namespace View.GameViews
+namespace Logic.Core
 {
-    public class GameBoundsView : MonoBehaviour
+    public class GameBounds
     {
-        [SerializeField] private Transform paddedBounds;
+        private readonly Transform transform;
 
-        [SerializeField] private bool constrainX;
+        private readonly Transform paddedBoundsTransform;
 
-        [SerializeField] private bool constrainY;
+        private readonly bool constrainX;
 
-        [SerializeField] private bool constrainZ;
+        private readonly bool constrainY;
+
+        private readonly bool constrainZ;
+
+        public GameBounds(Transform transform, Transform paddedBoundsTransform, bool constrainX, bool constrainY, bool constrainZ)
+        {
+            this.transform = transform;
+            this.paddedBoundsTransform = paddedBoundsTransform;
+            this.constrainX = constrainX;
+            this.constrainY = constrainY;
+            this.constrainZ = constrainZ;
+        }
 
         public bool KeepInBoundsPadded(Vector3 position, Vector3 scale, out Vector3 clampedPosition)
         {
             var result = IsLeavingBounds(transform, position, scale,
-                paddedBounds.localScale, constrainX, constrainY, constrainZ,
+                paddedBoundsTransform.localScale, constrainX, constrainY, constrainZ,
                 out clampedPosition, out _);
             return result != GameBoundsEdge.None;
         }
