@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class TypeExtensions
+namespace Util.Extensions
 {
-    public static bool IsImplementationOf(this Type baseType, Type interfaceType)
+    public static class TypeExtensions
     {
-        return baseType.GetInterfaces().Any(interfaceType.Equals);
-    }
+        public static bool IsImplementationOf(this Type baseType, Type interfaceType)
+        {
+            return baseType.GetInterfaces().Any(interfaceType.Equals);
+        }
 
-    public static IEnumerable<Type> GetImplementingClasses(this Type interfaceType)
-    {
-        return AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(s => s.GetTypes())
-            .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract);
+        public static IEnumerable<Type> GetImplementingClasses(this Type interfaceType)
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract);
+        }
     }
 }

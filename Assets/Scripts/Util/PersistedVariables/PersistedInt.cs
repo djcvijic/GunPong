@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public class PersistedInt
+namespace Util.PersistedVariables
 {
-    private readonly string key;
-
-    public PersistedInt(string key)
+    public class PersistedInt
     {
-        this.key = key;
-    }
+        private readonly string key;
 
-    public int? Get()
-    {
-        return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : null;
-    }
+        public PersistedInt(string key)
+        {
+            this.key = key;
+        }
 
-    public void Set(int? value)
-    {
-        if (value.HasValue) PlayerPrefs.SetInt(key, value.Value);
-        else PlayerPrefs.DeleteKey(key);
+        public int? Get()
+        {
+            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) : null;
+        }
+
+        public void Set(int? value)
+        {
+            if (value.HasValue) PlayerPrefs.SetInt(key, value.Value);
+            else PlayerPrefs.DeleteKey(key);
+        }
     }
 }

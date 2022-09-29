@@ -1,1 +1,4 @@
-public interface IGenericMonoSingletonDontDestroyOnLoad { }
+namespace Util.GenericSingletons
+{
+    public interface IGenericMonoSingletonDontDestroyOnLoad { }
+}

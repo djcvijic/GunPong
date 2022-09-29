@@ -1,1 +1,4 @@
-public interface IGenericMonoSingletonSelfInstantiating { }
+namespace Util.GenericSingletons
+{
+    public interface IGenericMonoSingletonSelfInstantiating { }
+}

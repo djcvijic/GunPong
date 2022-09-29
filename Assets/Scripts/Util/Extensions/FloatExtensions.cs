@@ -1,9 +1,12 @@
 using System;
 
-public static class FloatExtensions
+namespace Util.Extensions
 {
-    public static bool Approximately(this float a, float b)
+    public static class FloatExtensions
     {
-        return Math.Abs(a - b) <= float.Epsilon;
+        public static bool Approximately(this float a, float b)
+        {
+            return Math.Abs(a - b) <= float.Epsilon;
+        }
     }
 }

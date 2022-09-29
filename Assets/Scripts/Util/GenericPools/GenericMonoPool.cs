@@ -1,35 +1,39 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Util.GenericSingletons;
 using Object = UnityEngine.Object;
 
-public class GenericMonoPool<T> : GenericSingleton<GenericMonoPool<T>> where T : MonoBehaviour
+namespace Util.GenericPools
 {
-    private readonly Stack<T> inactiveObjects = new();
-
-    public T GetOrCreate(T prefab, Vector3 position, Quaternion rotation, Transform parent)
+    public class GenericMonoPool<T> : GenericSingleton<GenericMonoPool<T>> where T : MonoBehaviour
     {
-        if (inactiveObjects.TryPop(out var obj))
-        {
-            var t = obj.transform;
-            t.position = position;
-            t.rotation = rotation;
-        }
-        else
-        {
-            obj = Object.Instantiate(prefab, position, rotation, parent);
-        }
+        private readonly Stack<T> inactiveObjects = new();
 
-        return obj;
-    }
-
-    public void Return(T obj)
-    {
-        if (inactiveObjects.Contains(obj))
+        public T GetOrCreate(T prefab, Vector3 position, Quaternion rotation, Transform parent)
         {
-            throw new InvalidOperationException($"Cannot return an object which is already in the pool: {obj}");
+            if (inactiveObjects.TryPop(out var obj))
+            {
+                var t = obj.transform;
+                t.position = position;
+                t.rotation = rotation;
+            }
+            else
+            {
+                obj = Object.Instantiate(prefab, position, rotation, parent);
+            }
+
+            return obj;
         }
 
-        inactiveObjects.Push(obj);
+        public void Return(T obj)
+        {
+            if (inactiveObjects.Contains(obj))
+            {
+                throw new InvalidOperationException($"Cannot return an object which is already in the pool: {obj}");
+            }
+
+            inactiveObjects.Push(obj);
+        }
     }
 }

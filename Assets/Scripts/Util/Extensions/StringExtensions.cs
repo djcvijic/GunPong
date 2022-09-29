@@ -1,12 +1,15 @@
-public static class StringExtensions
+namespace Util.Extensions
 {
-    public static bool IsNullOrEmpty(this string str)
+    public static class StringExtensions
     {
-        return string.IsNullOrEmpty(str);
-    }
+        public static bool IsNullOrEmpty(this string str)
+        {
+            return string.IsNullOrEmpty(str);
+        }
 
-    public static bool IsNullOrWhitespace(this string str)
-    {
-        return string.IsNullOrWhiteSpace(str);
+        public static bool IsNullOrWhitespace(this string str)
+        {
+            return string.IsNullOrWhiteSpace(str);
+        }
     }
 }

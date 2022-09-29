@@ -1,8 +1,11 @@
-public enum CollisionEdge
+namespace View.Common
 {
-    None,
-    Left,
-    Right,
-    Bottom,
-    Top
+    public enum CollisionEdge
+    {
+        None,
+        Left,
+        Right,
+        Bottom,
+        Top
+    }
 }

@@ -1,7 +1,10 @@
-public enum GameState
+namespace Logic.Core
 {
-    PreGame,
-    PrepareServe,
-    Playing,
-    GameOver,
+    public enum GameState
+    {
+        PreGame,
+        PrepareServe,
+        Playing,
+        GameOver,
+    }
 }

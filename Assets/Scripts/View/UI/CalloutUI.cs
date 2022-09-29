@@ -2,16 +2,19 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class CalloutUI : MonoBehaviour
+namespace View.UI
 {
-    [SerializeField] private TMP_Text messageLabel;
-
-    public IEnumerator Show(float duration, string message)
+    public class CalloutUI : MonoBehaviour
     {
-        gameObject.SetActive(true);
-        messageLabel.text = message;
+        [SerializeField] private TMP_Text messageLabel;
 
-        yield return new WaitForSeconds(duration);
-        gameObject.SetActive(false);
+        public IEnumerator Show(float duration, string message)
+        {
+            gameObject.SetActive(true);
+            messageLabel.text = message;
+
+            yield return new WaitForSeconds(duration);
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -1,10 +1,13 @@
-public enum GameBoundsEdge
+namespace View.Common
 {
-    None,
-    Left,
-    Right,
-    Bottom,
-    Top,
-    Rear,
-    Front
+    public enum GameBoundsEdge
+    {
+        None,
+        Left,
+        Right,
+        Bottom,
+        Top,
+        Rear,
+        Front
+    }
 }

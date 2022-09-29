@@ -1,14 +1,21 @@
-public class LocalPlayerInput : PaddleBrain
+using Logic.Core;
+using View.GameViews;
+using View.UI;
+
+namespace Logic.Brains
 {
-    private GameUI gameUI;
-
-    public void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle)
+    public class LocalPlayerInput : PaddleBrain
     {
-        this.gameUI = gameUI;
-    }
+        private GameUI gameUI;
 
-    public InputParams Act(float deltaTime)
-    {
-        return gameUI.InputParams;
+        public void Initialize(GameUI gameUI, GameView gameView, PaddleView paddle)
+        {
+            this.gameUI = gameUI;
+        }
+
+        public InputParams Act(float deltaTime)
+        {
+            return gameUI.InputParams;
+        }
     }
 }

@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public class PersistedFloat
+namespace Util.PersistedVariables
 {
-    private readonly string key;
-
-    public PersistedFloat(string key)
+    public class PersistedFloat
     {
-        this.key = key;
-    }
+        private readonly string key;
 
-    public float? Get()
-    {
-        return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : null;
-    }
+        public PersistedFloat(string key)
+        {
+            this.key = key;
+        }
 
-    public void Set(float? value)
-    {
-        if (value.HasValue) PlayerPrefs.SetFloat(key, value.Value);
-        else PlayerPrefs.DeleteKey(key);
+        public float? Get()
+        {
+            return PlayerPrefs.HasKey(key) ? PlayerPrefs.GetFloat(key) : null;
+        }
+
+        public void Set(float? value)
+        {
+            if (value.HasValue) PlayerPrefs.SetFloat(key, value.Value);
+            else PlayerPrefs.DeleteKey(key);
+        }
     }
 }

@@ -1,6 +1,9 @@
-public enum AudioLimitBehaviour
+namespace View.Audio
 {
-    DiscardOldInstance = 0,
-    DiscardNewInstance = 1,
-    DoNotLimit = 2,
+    public enum AudioLimitBehaviour
+    {
+        DiscardOldInstance = 0,
+        DiscardNewInstance = 1,
+        DoNotLimit = 2,
+    }
 }

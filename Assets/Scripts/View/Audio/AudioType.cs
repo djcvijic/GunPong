@@ -1,5 +1,8 @@
-public enum AudioType
+namespace View.Audio
 {
-    Sound = 0,
-    Music = 1,
+    public enum AudioType
+    {
+        Sound = 0,
+        Music = 1,
+    }
 }

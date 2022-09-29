@@ -1,52 +1,58 @@
 using System.Collections;
+using Util.CoroutineRunner;
+using View.GameViews;
+using View.UI;
 
-public class GameFlow
+namespace Logic.Core
 {
-    private readonly GameUI gameUI;
-    private readonly CoroutineRunner coroutineRunner;
-
-    public GameState GameState { get; private set; }
-
-    public GameFlow(GameUI gameUI, CoroutineRunner coroutineRunner)
+    public class GameFlow
     {
-        this.gameUI = gameUI;
-        this.coroutineRunner = coroutineRunner;
-    }
+        private readonly GameUI gameUI;
+        private readonly CoroutineRunner coroutineRunner;
 
-    public void StartMainMenu()
-    {
-        GameState = GameState.PreGame;
+        public GameState GameState { get; private set; }
 
-        gameUI.MainMenuUI.gameObject.SetActive(true);
-    }
+        public GameFlow(GameUI gameUI, CoroutineRunner coroutineRunner)
+        {
+            this.gameUI = gameUI;
+            this.coroutineRunner = coroutineRunner;
+        }
 
-    public void PrepareServe(PaddleView paddle, BallView ball)
-    {
-        GameState = GameState.PrepareServe;
+        public void StartMainMenu()
+        {
+            GameState = GameState.PreGame;
 
-        coroutineRunner.StartCoroutine(PrepareServeCoroutine(paddle, ball));
-    }
+            gameUI.MainMenuUI.gameObject.SetActive(true);
+        }
 
-    private IEnumerator PrepareServeCoroutine(PaddleView paddle, BallView ball)
-    {
-        paddle.AttachBall(ball);
+        public void PrepareServe(PaddleView paddle, BallView ball)
+        {
+            GameState = GameState.PrepareServe;
 
-        yield return gameUI.CalloutUI.Show(2.5f, $"{paddle.Owner.PlayerName} WITH THE SERVE");
+            coroutineRunner.StartCoroutine(PrepareServeCoroutine(paddle, ball));
+        }
 
-        GameState = GameState.Playing;
-    }
+        private IEnumerator PrepareServeCoroutine(PaddleView paddle, BallView ball)
+        {
+            paddle.AttachBall(ball);
 
-    public void GameOver(Player winner)
-    {
-        GameState = GameState.GameOver;
+            yield return gameUI.CalloutUI.Show(2.5f, $"{paddle.Owner.PlayerName} WITH THE SERVE");
 
-        coroutineRunner.StartCoroutine(GameOverCoroutine(winner));
-    }
+            GameState = GameState.Playing;
+        }
 
-    private IEnumerator GameOverCoroutine(Player winner)
-    {
-        yield return gameUI.CalloutUI.Show(5f, $"GAME OVER! {winner.PlayerName} WINS!");
+        public void GameOver(Player winner)
+        {
+            GameState = GameState.GameOver;
 
-        StartMainMenu();
+            coroutineRunner.StartCoroutine(GameOverCoroutine(winner));
+        }
+
+        private IEnumerator GameOverCoroutine(Player winner)
+        {
+            yield return gameUI.CalloutUI.Show(5f, $"GAME OVER! {winner.PlayerName} WINS!");
+
+            StartMainMenu();
+        }
     }
 }

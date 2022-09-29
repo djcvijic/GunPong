@@ -1,11 +1,14 @@
-public struct InputParams
+namespace Logic.Core
 {
-    public readonly float Horizontal;
-    public readonly bool Fire;
-
-    public InputParams(float horizontal, bool fire)
+    public struct InputParams
     {
-        Horizontal = horizontal;
-        Fire = fire;
+        public readonly float Horizontal;
+        public readonly bool Fire;
+
+        public InputParams(float horizontal, bool fire)
+        {
+            Horizontal = horizontal;
+            Fire = fire;
+        }
     }
 }

@@ -1,41 +1,44 @@
 using System;
 
-public class Player
+namespace Logic.Core
 {
-    private const int MaxLives = 3;
-
-    private const int MaxHealthPerLife = 3;
-
-    public int CurrentLives { get; private set; }
-
-    public int CurrentHealth { get; private set; }
-
-    public Player(string playerName, Type brain)
+    public class Player
     {
-        PlayerName = playerName;
-        Brain = brain;
-        CurrentLives = MaxLives;
-        CurrentHealth = MaxHealthPerLife;
-    }
+        private const int MaxLives = 3;
 
-    public string PlayerName { get; }
+        private const int MaxHealthPerLife = 3;
 
-    public Type Brain { get; }
+        public int CurrentLives { get; private set; }
 
-    public bool IsDead => CurrentLives <= 0;
+        public int CurrentHealth { get; private set; }
 
-    public void LoseLife()
-    {
-        CurrentLives--;
-        CurrentHealth = MaxHealthPerLife;
-    }
-
-    public void LoseHealth()
-    {
-        CurrentHealth--;
-        if (CurrentHealth <= 0)
+        public Player(string playerName, Type brain)
         {
-            LoseLife();
+            PlayerName = playerName;
+            Brain = brain;
+            CurrentLives = MaxLives;
+            CurrentHealth = MaxHealthPerLife;
+        }
+
+        public string PlayerName { get; }
+
+        public Type Brain { get; }
+
+        public bool IsDead => CurrentLives <= 0;
+
+        public void LoseLife()
+        {
+            CurrentLives--;
+            CurrentHealth = MaxHealthPerLife;
+        }
+
+        public void LoseHealth()
+        {
+            CurrentHealth--;
+            if (CurrentHealth <= 0)
+            {
+                LoseLife();
+            }
         }
     }
 }
