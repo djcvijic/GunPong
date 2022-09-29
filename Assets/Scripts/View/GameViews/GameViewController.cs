@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Logic.Brains;
 using Logic.Core;
 using UnityEngine;
@@ -18,11 +17,17 @@ namespace View.GameViews
 
         [SerializeField] private BallView ball;
 
-        [SerializeField] private List<PaddleView> paddles;
+        [SerializeField] private PaddleView bottomPaddle;
+
+        [SerializeField] private PaddleView topPaddle;
 
         [SerializeField] private AudioClipSettings musicSettings;
 
         [SerializeField] private AudioClipSettings dieSoundSettings;
+
+        [SerializeField] private AudioClipSettings pingSoundSettings;
+
+        [SerializeField] private AudioClipSettings pongSoundSettings;
 
         private Vector3 topPaddleStartingPosition;
 
@@ -42,15 +47,11 @@ namespace View.GameViews
 
         public BallView Ball => ball;
 
-        private PaddleView BottomPaddle => paddles.Find(x => x.IsABottom);
-
-        private PaddleView TopPaddle => paddles.Find(x => !x.IsABottom);
-
         private void Start()
         {
             GameBounds = new GameBounds(gameBoundsTransform, paddedBoundsTransform, true, true, false);
-            topPaddleStartingPosition = TopPaddle.transform.position;
-            bottomPaddleStartingPosition = BottomPaddle.transform.position;
+            topPaddleStartingPosition = topPaddle.transform.position;
+            bottomPaddleStartingPosition = bottomPaddle.transform.position;
             gameFlow = new GameFlow(GameUI.Instance, CoroutineRunner.Instance);
             gameFlow.StartMainMenu();
             AudioManager.PlayAudio(musicSettings);
@@ -58,7 +59,7 @@ namespace View.GameViews
 
         private Player DetermineOwner(PaddleView paddle)
         {
-            return paddle.IsABottom ? player1 : player2;
+            return paddle == bottomPaddle ? player1 : player2;
         }
 
         private IPaddleBrain DetermineBrain(PaddleView paddle)
@@ -71,12 +72,12 @@ namespace View.GameViews
 
         public PaddleView GetPaddle(Player owner)
         {
-            return paddles.Find(x => x.Owner == owner);
+            return topPaddle.Owner == owner ? topPaddle : bottomPaddle.Owner == owner ? bottomPaddle : null;
         }
 
         public PaddleView GetEnemyPaddle(Player owner)
         {
-            return paddles.Find(x => x.Owner != owner);
+            return topPaddle.Owner == owner ? bottomPaddle : bottomPaddle.Owner == owner ? topPaddle : null;
         }
 
         public void BulletHitPaddle(PaddleView paddle)
@@ -87,9 +88,14 @@ namespace View.GameViews
             ReactToPlayerStatus(player, previousLives);
         }
 
+        public void BallHitPaddle(PaddleView paddle)
+        {
+            AudioManager.PlayAudio(paddle.Owner == player1 ? pingSoundSettings : pongSoundSettings);
+        }
+
         public void BallHitBottom()
         {
-            var player = BottomPaddle.Owner;
+            var player = bottomPaddle.Owner;
             var previousLives = player.CurrentLives;
             player.LoseLife();
             ReactToPlayerStatus(player, previousLives);
@@ -97,7 +103,7 @@ namespace View.GameViews
 
         public void BallHitTop()
         {
-            var player = TopPaddle.Owner;
+            var player = topPaddle.Owner;
             var previousLives = player.CurrentLives;
             player.LoseLife();
             ReactToPlayerStatus(player, previousLives);
@@ -105,7 +111,7 @@ namespace View.GameViews
 
         private void ReactToPlayerStatus(Player player, int previousLives)
         {
-            if (GetPaddle(player).IsABottom)
+            if (player == bottomPaddle.Owner)
             {
                 GameUI.Instance.UpdateBottomPlayerLife(player);
             }
@@ -148,17 +154,17 @@ namespace View.GameViews
             player1 = new Player(player1Name, player1Brain);
             player2 = new Player(player2Name, player2Brain);
 
-            foreach (var paddle in paddles)
-            {
-                paddle.Owner = DetermineOwner(paddle);
-                paddle.Brain = DetermineBrain(paddle);
-            }
+            topPaddle.Owner = DetermineOwner(topPaddle);
+            bottomPaddle.Owner = DetermineOwner(bottomPaddle);
 
-            BottomPaddle.transform.position = bottomPaddleStartingPosition;
-            TopPaddle.transform.position = topPaddleStartingPosition;
+            topPaddle.Brain = DetermineBrain(topPaddle);
+            bottomPaddle.Brain = DetermineBrain(bottomPaddle);
 
-            var topPlayer = TopPaddle.Owner;
-            var bottomPlayer = BottomPaddle.Owner;
+            bottomPaddle.transform.position = bottomPaddleStartingPosition;
+            topPaddle.transform.position = topPaddleStartingPosition;
+
+            var topPlayer = topPaddle.Owner;
+            var bottomPlayer = bottomPaddle.Owner;
             GameUI.Instance.Initialize(topPlayer, bottomPlayer);
 
             gameFlow.PrepareServe(GetPaddle(player1), ball);

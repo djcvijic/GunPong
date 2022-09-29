@@ -453,11 +453,12 @@ MonoBehaviour:
   gameBoundsTransform: {fileID: 628349686}
   paddedBoundsTransform: {fileID: 669075983}
   ball: {fileID: 1248950851}
-  paddles:
-  - {fileID: 1765159722}
-  - {fileID: 1815696887}
+  bottomPaddle: {fileID: 1765159722}
+  topPaddle: {fileID: 1815696887}
   musicSettings: {fileID: 11400000, guid: 89316822875e941efaa0773e86de9748, type: 2}
   dieSoundSettings: {fileID: 11400000, guid: b547dc4c360dd4439b10b581d24870c7, type: 2}
+  pingSoundSettings: {fileID: 11400000, guid: 690c51ab8b4ec48ff86f3d08e9798260, type: 2}
+  pongSoundSettings: {fileID: 11400000, guid: 22bf8e3f1f36a475883985e8e9b94bc0, type: 2}
 --- !u!1 &669075982
 GameObject:
   m_ObjectHideFlags: 0

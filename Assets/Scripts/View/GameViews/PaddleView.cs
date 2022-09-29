@@ -18,8 +18,6 @@ namespace View.GameViews
 
         [SerializeField] private float fireCooldown = 1f;
 
-        [SerializeField] private bool isABottom;
-
         [SerializeField] private BulletView bulletPrefab;
 
         [SerializeField] private float bulletSpeed = 1f;
@@ -28,10 +26,6 @@ namespace View.GameViews
 
         [SerializeField] private AudioClipSettings hurtSoundSettings;
 
-        [SerializeField] private AudioClipSettings pingSoundSettings;
-
-        [SerializeField] private AudioClipSettings pongSoundSettings;
-
         private float timeSinceLastFire;
 
         public Player Owner { get; set; }
@@ -39,8 +33,6 @@ namespace View.GameViews
         public IPaddleBrain Brain { get; set; }
 
         private BallView attachedBall;
-
-        public bool IsABottom => isABottom;
 
         public float Speed => speed;
 
@@ -114,7 +106,7 @@ namespace View.GameViews
 
         public void GetHitBy(BallView ball)
         {
-            GameViewController.Instance.AudioManager.PlayAudio(IsABottom ? pingSoundSettings : pongSoundSettings);
+            GameViewController.Instance.BallHitPaddle(this);
         }
 
         public void AttachBall(BallView ball)

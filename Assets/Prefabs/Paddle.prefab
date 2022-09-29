@@ -136,13 +136,10 @@ MonoBehaviour:
   ballHolder: {fileID: 7396112624927544643}
   speed: 3.3333333
   fireCooldown: 0.5
-  isABottom: 0
   bulletPrefab: {fileID: 7290466554439756981, guid: f42e2b29f19b44de99a19c200c3f6c33, type: 3}
   bulletSpeed: 5
   fireSoundSettings: {fileID: 11400000, guid: 574af4bbeffce4993ba7296f7154b027, type: 2}
   hurtSoundSettings: {fileID: 11400000, guid: 46b1dd0620d0d495da91d298a270623a, type: 2}
-  pingSoundSettings: {fileID: 11400000, guid: 690c51ab8b4ec48ff86f3d08e9798260, type: 2}
-  pongSoundSettings: {fileID: 11400000, guid: 22bf8e3f1f36a475883985e8e9b94bc0, type: 2}
 --- !u!1 &1900783309131183332
 GameObject:
   m_ObjectHideFlags: 0
