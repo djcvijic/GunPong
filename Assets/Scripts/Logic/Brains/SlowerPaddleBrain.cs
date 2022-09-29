@@ -39,7 +39,9 @@ namespace Logic.Brains
             var offsetX = BallFollowPositionOffsetPercentage * myScaleX;
             var mySpeed = paddle.Speed;
             var result = (ballX - myX + offsetX) / mySpeed  / deltaTime;
-            return Mathf.Clamp(result, -SpeedFactor, SpeedFactor);
+            var resultVector = myTransform.rotation * new Vector3(result, 0f, 0f);
+            var resultRotated = resultVector.x;
+            return Mathf.Clamp(resultRotated, -SpeedFactor, SpeedFactor);
         }
 
         private bool FireIfEnemyAhead()

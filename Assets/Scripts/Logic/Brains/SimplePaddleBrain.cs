@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Logic.Core;
+using UnityEngine;
 using View.GameViews;
 using View.UI;
 
@@ -35,7 +36,10 @@ namespace Logic.Brains
             var myScaleX = myTransform.lossyScale.x;
             var offsetX = BallFollowPositionOffsetPercentage * myScaleX;
             var mySpeed = paddle.Speed;
-            return (ballX - myX + offsetX) / mySpeed / deltaTime;
+            var result = (ballX - myX + offsetX) / mySpeed / deltaTime;
+            var resultVector = myTransform.rotation * new Vector3(result, 0f, 0f);
+            var resultRotated = resultVector.x;
+            return resultRotated;
         }
 
         private bool FireIfEnemyAhead()
