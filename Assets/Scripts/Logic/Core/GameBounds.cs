@@ -5,9 +5,11 @@ namespace Logic.Core
 {
     public class GameBounds
     {
-        private readonly Transform gameBoundsTransform;
+        private readonly Vector3 gameBoundsPosition;
 
-        private readonly Transform paddedBoundsTransform;
+        private readonly Vector3 gameBoundsScale;
+
+        private readonly Vector3 paddedBoundsScale;
 
         private readonly bool constrainX;
 
@@ -15,11 +17,12 @@ namespace Logic.Core
 
         private readonly bool constrainZ;
 
-        public GameBounds(Transform gameBoundsTransform, Transform paddedBoundsTransform,
-            bool constrainX, bool constrainY, bool constrainZ)
+        public GameBounds(Vector3 gameBoundsPosition, Vector3 gameBoundsScale,
+            Vector3 paddedBoundsScale, bool constrainX, bool constrainY, bool constrainZ)
         {
-            this.gameBoundsTransform = gameBoundsTransform;
-            this.paddedBoundsTransform = paddedBoundsTransform;
+            this.gameBoundsPosition = gameBoundsPosition;
+            this.gameBoundsScale = gameBoundsScale;
+            this.paddedBoundsScale = paddedBoundsScale;
             this.constrainX = constrainX;
             this.constrainY = constrainY;
             this.constrainZ = constrainZ;
@@ -43,15 +46,14 @@ namespace Logic.Core
         private GameBoundsEdge IsLeavingBounds(Vector3 position, Vector3 scale, bool usePadding,
             out Vector3 clampedPosition, out Vector3 reflectedPosition)
         {
-            var boundsPosition = gameBoundsTransform.position;
-            var boundsScale = usePadding ? paddedBoundsTransform.lossyScale : gameBoundsTransform.lossyScale;
             var result = GameBoundsEdge.None;
+            var boundsScale = usePadding ? paddedBoundsScale : gameBoundsScale;
             clampedPosition = position;
             reflectedPosition = position;
 
             if (constrainX)
             {
-                var minX = boundsPosition.x - 0.5f * boundsScale.x + 0.5f * scale.x;
+                var minX = gameBoundsPosition.x - 0.5f * boundsScale.x + 0.5f * scale.x;
                 if (position.x < minX)
                 {
                     clampedPosition.x = minX;
@@ -60,7 +62,7 @@ namespace Logic.Core
                 }
                 else
                 {
-                    var maxX = boundsPosition.x + 0.5f * boundsScale.x - 0.5f * scale.x;
+                    var maxX = gameBoundsPosition.x + 0.5f * boundsScale.x - 0.5f * scale.x;
                     if (position.x > maxX)
                     {
                         clampedPosition.x = maxX;
@@ -72,7 +74,7 @@ namespace Logic.Core
 
             if (constrainY)
             {
-                var minY = boundsPosition.y - 0.5f * boundsScale.y + 0.5f * scale.y;
+                var minY = gameBoundsPosition.y - 0.5f * boundsScale.y + 0.5f * scale.y;
                 if (position.y < minY)
                 {
                     clampedPosition.y = minY;
@@ -81,7 +83,7 @@ namespace Logic.Core
                 }
                 else
                 {
-                    var maxY = boundsPosition.y + 0.5f * boundsScale.y - 0.5f * scale.y;
+                    var maxY = gameBoundsPosition.y + 0.5f * boundsScale.y - 0.5f * scale.y;
                     if (position.y > maxY)
                     {
                         clampedPosition.y = maxY;
@@ -93,7 +95,7 @@ namespace Logic.Core
 
             if (constrainZ)
             {
-                var minZ = boundsPosition.z - 0.5f * boundsScale.z + 0.5f * scale.z;
+                var minZ = gameBoundsPosition.z - 0.5f * boundsScale.z + 0.5f * scale.z;
                 if (position.z < minZ)
                 {
                     clampedPosition.z = minZ;
@@ -102,7 +104,7 @@ namespace Logic.Core
                 }
                 else
                 {
-                    var maxZ = boundsPosition.z + 0.5f * boundsScale.z - 0.5f * scale.z;
+                    var maxZ = gameBoundsPosition.z + 0.5f * boundsScale.z - 0.5f * scale.z;
                     if (position.z > maxZ)
                     {
                         clampedPosition.z = maxZ;

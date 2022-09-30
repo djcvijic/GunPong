@@ -49,7 +49,8 @@ namespace View.GameViews
 
         private void Start()
         {
-            GameBounds = new GameBounds(gameBoundsTransform, paddedBoundsTransform, true, true, false);
+            GameBounds = new GameBounds(gameBoundsTransform.position, gameBoundsTransform.lossyScale,
+                paddedBoundsTransform.lossyScale, true, true, false);
             bottomPaddleStartingPosition = bottomPaddle.transform.position;
             topPaddleStartingPosition = topPaddle.transform.position;
             gameFlow = new GameFlow(GameUI.Instance, CoroutineRunner.Instance);
