@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Logic.Core
+namespace Logic.GameBounds
 {
     public class GameBoundsFactory
     {

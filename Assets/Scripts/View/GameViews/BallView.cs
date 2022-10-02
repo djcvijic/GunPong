@@ -1,5 +1,6 @@
 using System;
 using Logic.Core;
+using Logic.GameBounds;
 using UnityEngine;
 using View.Audio;
 using View.Common;

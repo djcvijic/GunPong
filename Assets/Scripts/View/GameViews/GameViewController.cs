@@ -1,6 +1,7 @@
 using System;
 using Logic.Brains;
 using Logic.Core;
+using Logic.GameBounds;
 using UnityEngine;
 using Util.CoroutineRunner;
 using Util.GenericSingletons;

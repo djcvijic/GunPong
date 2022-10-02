@@ -1,4 +1,4 @@
-namespace View.Common
+namespace Logic.GameBounds
 {
     public enum GameBoundsEdge
     {

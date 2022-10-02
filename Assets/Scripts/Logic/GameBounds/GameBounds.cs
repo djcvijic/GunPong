@@ -1,7 +1,6 @@
 using UnityEngine;
-using View.Common;
 
-namespace Logic.Core
+namespace Logic.GameBounds
 {
     public class GameBounds
     {
