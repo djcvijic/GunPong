@@ -40,11 +40,6 @@ namespace Logic.Core
             this.constrainZ = constrainZ;
         }
 
-        public BoundingCuboid GetBoundingCuboid()
-        {
-            return new BoundingCuboid(MinX, MaxX, MinY, MaxY, MinZ, MaxZ);
-        }
-
         public bool IsOut(Vector3 position)
         {
             if (constrainX)
