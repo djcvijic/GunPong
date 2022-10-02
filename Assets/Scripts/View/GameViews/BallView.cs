@@ -56,7 +56,7 @@ namespace View.GameViews
 
         private void AttemptCollideWithBounds()
         {
-            var gameBoundsEdge = gameBounds.Reflect(transform.position, out var reflectedPosition);
+            gameBounds.IsLeavingBounds(transform.position, out var gameBoundsEdge, out _, out var reflectedPosition);
             switch (gameBoundsEdge)
             {
                 case GameBoundsEdge.Left:

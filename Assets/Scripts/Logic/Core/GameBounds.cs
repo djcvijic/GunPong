@@ -17,6 +17,18 @@ namespace Logic.Core
 
         private readonly bool constrainZ;
 
+        private float MinX => gameBoundsPosition.x - 0.5f * gameBoundsScale.x + 0.5f * scale.x;
+
+        private float MaxX => gameBoundsPosition.x + 0.5f * gameBoundsScale.x - 0.5f * scale.x;
+
+        private float MinY => gameBoundsPosition.y - 0.5f * gameBoundsScale.y + 0.5f * scale.y;
+
+        private float MaxY => gameBoundsPosition.y + 0.5f * gameBoundsScale.y - 0.5f * scale.y;
+
+        private float MinZ => gameBoundsPosition.z - 0.5f * gameBoundsScale.z + 0.5f * scale.z;
+
+        private float MaxZ => gameBoundsPosition.z + 0.5f * gameBoundsScale.z - 0.5f * scale.z;
+
         public GameBounds(Vector3 gameBoundsPosition, Vector3 gameBoundsScale, Vector3 scale, 
             bool constrainX, bool constrainY, bool constrainZ)
         {
@@ -28,91 +40,82 @@ namespace Logic.Core
             this.constrainZ = constrainZ;
         }
 
-        public bool KeepInBoundsPadded(Vector3 position, out Vector3 clampedPosition)
+        public BoundingCuboid GetBoundingCuboid()
         {
-            return IsLeavingBounds(position, out clampedPosition, out _) != GameBoundsEdge.None;
+            return new BoundingCuboid(MinX, MaxX, MinY, MaxY, MinZ, MaxZ);
         }
 
-        public GameBoundsEdge Reflect(Vector3 position, out Vector3 reflectedPosition)
+        public bool IsLeavingBounds(Vector3 position, out GameBoundsEdge edge, out Vector3 clampedPosition,
+            out Vector3 reflectedPosition)
         {
-            return IsLeavingBounds(position, out _, out reflectedPosition);
-        }
-
-        public bool IsOutOfBounds(Vector3 position)
-        {
-            return IsLeavingBounds(position, out _, out _) != GameBoundsEdge.None;
-        }
-
-        private GameBoundsEdge IsLeavingBounds(Vector3 position, out Vector3 clampedPosition, out Vector3 reflectedPosition)
-        {
-            var result = GameBoundsEdge.None;
+            edge = GameBoundsEdge.None;
             clampedPosition = position;
             reflectedPosition = position;
 
             if (constrainX)
             {
-                var minX = gameBoundsPosition.x - 0.5f * gameBoundsScale.x + 0.5f * scale.x;
+                var minX = MinX;
                 if (position.x < minX)
                 {
                     clampedPosition.x = minX;
                     reflectedPosition.x = 2f * minX - position.x;
-                    result = GameBoundsEdge.Left;
+                    edge = GameBoundsEdge.Left;
                 }
                 else
                 {
-                    var maxX = gameBoundsPosition.x + 0.5f * gameBoundsScale.x - 0.5f * scale.x;
+                    var maxX = MaxX;
                     if (position.x > maxX)
                     {
                         clampedPosition.x = maxX;
                         reflectedPosition.x = 2f * maxX - position.x;
-                        result = GameBoundsEdge.Right;
+                        edge = GameBoundsEdge.Right;
                     }
                 }
             }
 
             if (constrainY)
             {
-                var minY = gameBoundsPosition.y - 0.5f * gameBoundsScale.y + 0.5f * scale.y;
+                var minY = MinY;
                 if (position.y < minY)
                 {
                     clampedPosition.y = minY;
                     reflectedPosition.y = 2f * minY - position.y;
-                    result = GameBoundsEdge.Bottom;
+                    edge = GameBoundsEdge.Bottom;
                 }
                 else
                 {
-                    var maxY = gameBoundsPosition.y + 0.5f * gameBoundsScale.y - 0.5f * scale.y;
+                    var maxY = MaxY;
                     if (position.y > maxY)
                     {
                         clampedPosition.y = maxY;
                         reflectedPosition.y = 2f * maxY - position.y;
-                        result = GameBoundsEdge.Top;
+                        edge = GameBoundsEdge.Top;
                     }
                 }
             }
 
             if (constrainZ)
             {
-                var minZ = gameBoundsPosition.z - 0.5f * gameBoundsScale.z + 0.5f * scale.z;
+                var minZ = MinZ;
                 if (position.z < minZ)
                 {
                     clampedPosition.z = minZ;
                     reflectedPosition.z = 2f * minZ - position.z;
-                    result = GameBoundsEdge.Rear;
+                    edge = GameBoundsEdge.Rear;
                 }
                 else
                 {
-                    var maxZ = gameBoundsPosition.z + 0.5f * gameBoundsScale.z - 0.5f * scale.z;
+                    var maxZ = MaxZ;
                     if (position.z > maxZ)
                     {
                         clampedPosition.z = maxZ;
                         reflectedPosition.z = 2f * maxZ - position.z;
-                        result = GameBoundsEdge.Front;
+                        edge = GameBoundsEdge.Front;
                     }
                 }
             }
 
-            return result;
+            return edge != GameBoundsEdge.None;
         }
     }
 }

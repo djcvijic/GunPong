@@ -3,6 +3,7 @@ using Logic.Core;
 using UnityEngine;
 using Util.GenericPools;
 using View.Audio;
+using View.Common;
 
 namespace View.GameViews
 {
@@ -73,7 +74,7 @@ namespace View.GameViews
 
         private void KeepInBounds()
         {
-            if (gameBounds.KeepInBoundsPadded(transform.position, out var constrainedPosition))
+            if (gameBounds.IsLeavingBounds(transform.position, out _, out var constrainedPosition, out _))
             {
                 transform.position = constrainedPosition;
             }
