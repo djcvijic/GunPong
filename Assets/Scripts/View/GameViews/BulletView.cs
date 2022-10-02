@@ -1,7 +1,6 @@
 using Logic.Core;
 using UnityEngine;
 using Util.GenericPools;
-using View.Common;
 
 namespace View.GameViews
 {
@@ -41,7 +40,7 @@ namespace View.GameViews
 
         private void DieIfOutOfBounds()
         {
-            if (gameBounds.IsLeavingBounds(transform.position, out _, out _, out _))
+            if (gameBounds.IsOut(transform.position))
             {
                 Die();
             }

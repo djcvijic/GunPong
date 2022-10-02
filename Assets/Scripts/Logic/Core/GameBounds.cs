@@ -45,77 +45,96 @@ namespace Logic.Core
             return new BoundingCuboid(MinX, MaxX, MinY, MaxY, MinZ, MaxZ);
         }
 
-        public bool IsLeavingBounds(Vector3 position, out GameBoundsEdge edge, out Vector3 clampedPosition,
-            out Vector3 reflectedPosition)
+        public bool IsOut(Vector3 position)
         {
-            edge = GameBoundsEdge.None;
-            clampedPosition = position;
-            reflectedPosition = position;
-
             if (constrainX)
             {
-                var minX = MinX;
-                if (position.x < minX)
-                {
-                    clampedPosition.x = minX;
-                    reflectedPosition.x = 2f * minX - position.x;
-                    edge = GameBoundsEdge.Left;
-                }
-                else
-                {
-                    var maxX = MaxX;
-                    if (position.x > maxX)
-                    {
-                        clampedPosition.x = maxX;
-                        reflectedPosition.x = 2f * maxX - position.x;
-                        edge = GameBoundsEdge.Right;
-                    }
-                }
+                if (position.x < MinX) return true;
+                if (position.x > MaxX) return true;
             }
 
             if (constrainY)
             {
-                var minY = MinY;
-                if (position.y < minY)
-                {
-                    clampedPosition.y = minY;
-                    reflectedPosition.y = 2f * minY - position.y;
-                    edge = GameBoundsEdge.Bottom;
-                }
-                else
-                {
-                    var maxY = MaxY;
-                    if (position.y > maxY)
-                    {
-                        clampedPosition.y = maxY;
-                        reflectedPosition.y = 2f * maxY - position.y;
-                        edge = GameBoundsEdge.Top;
-                    }
-                }
+                if (position.y < MinY) return true;
+                if (position.y > MaxY) return true;
             }
 
             if (constrainZ)
             {
-                var minZ = MinZ;
-                if (position.z < minZ)
-                {
-                    clampedPosition.z = minZ;
-                    reflectedPosition.z = 2f * minZ - position.z;
-                    edge = GameBoundsEdge.Rear;
-                }
-                else
-                {
-                    var maxZ = MaxZ;
-                    if (position.z > maxZ)
-                    {
-                        clampedPosition.z = maxZ;
-                        reflectedPosition.z = 2f * maxZ - position.z;
-                        edge = GameBoundsEdge.Front;
-                    }
-                }
+                if (position.z < MinZ) return true;
+                if (position.z > MaxZ) return true;
             }
 
-            return edge != GameBoundsEdge.None;
+            return false;
+        }
+
+        public GameBoundsEdge GetEdge(Vector3 position)
+        {
+            if (constrainX)
+            {
+                if (position.x < MinX) return GameBoundsEdge.Left;
+                if (position.x > MaxX) return GameBoundsEdge.Right;
+            }
+
+            if (constrainY)
+            {
+                if (position.y < MinY) return GameBoundsEdge.Bottom;
+                if (position.y > MaxY) return GameBoundsEdge.Top;
+            }
+
+            if (constrainZ)
+            {
+                if (position.z < MinZ) return GameBoundsEdge.Rear;
+                if (position.z > MaxZ) return GameBoundsEdge.Front;
+            }
+
+            return GameBoundsEdge.None;
+        }
+
+        public Vector3 Clamp(Vector3 position)
+        {
+            if (constrainX)
+            {
+                if (position.x < MinX) position.x = MinX;
+                if (position.x > MaxX) position.x = MaxX;
+            }
+
+            if (constrainY)
+            {
+                if (position.y < MinY) position.y = MinY;
+                if (position.y > MaxY) position.y = MaxY;
+            }
+
+            if (constrainZ)
+            {
+                if (position.z < MinZ) position.z = MinZ;
+                if (position.z > MaxZ) position.z = MaxZ;
+            }
+
+            return position;
+        }
+
+        public Vector3 Reflect(Vector3 position)
+        {
+            if (constrainX)
+            {
+                if (position.x < MinX) position.x = 2f * MinX - position.x;
+                if (position.x > MaxX) position.x = 2f * MaxX - position.x;
+            }
+
+            if (constrainY)
+            {
+                if (position.y < MinY) position.y = 2f * MinY - position.y;
+                if (position.y > MaxY) position.y = 2f * MaxY - position.y;
+            }
+
+            if (constrainZ)
+            {
+                if (position.z < MinZ) position.z = 2f * MinZ - position.z;
+                if (position.z > MaxZ) position.z = 2f * MaxZ - position.z;
+            }
+
+            return position;
         }
     }
 }

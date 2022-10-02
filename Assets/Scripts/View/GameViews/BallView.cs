@@ -56,13 +56,16 @@ namespace View.GameViews
 
         private void AttemptCollideWithBounds()
         {
-            gameBounds.IsLeavingBounds(transform.position, out var gameBoundsEdge, out _, out var reflectedPosition);
+            var position = transform.position;
+            if (!gameBounds.IsOut(position)) return;
+
+            var gameBoundsEdge = gameBounds.GetEdge(position);
             switch (gameBoundsEdge)
             {
                 case GameBoundsEdge.Left:
                 case GameBoundsEdge.Right:
-                    transform.position = reflectedPosition;
                     ReflectVelocity(gameBoundsEdge);
+                    transform.position = gameBounds.Reflect(position);
                     GameViewController.Instance.AudioManager.PlayAudio(reflectSoundSettings);
                     break;
                 case GameBoundsEdge.Bottom:
