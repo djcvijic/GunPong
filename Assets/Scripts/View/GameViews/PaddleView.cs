@@ -34,9 +34,16 @@ namespace View.GameViews
 
         private BallView attachedBall;
 
+        private GameBounds gameBounds;
+
         public float Speed => speed;
 
         public bool IsBallAttached => attachedBall != null;
+
+        private void Start()
+        {
+            gameBounds = GameViewController.Instance.GameBoundsFactory.Create(true, false, chassis.lossyScale);
+        }
 
         private void Update()
         {
@@ -46,7 +53,7 @@ namespace View.GameViews
 
             Move(inputParams.Horizontal, Time.deltaTime);
 
-            KeepInBounds(GameViewController.Instance.GameBounds);
+            KeepInBounds();
 
             FireIfPossible(inputParams.Fire, Time.deltaTime);
         }
@@ -64,11 +71,9 @@ namespace View.GameViews
             t.position = position;
         }
 
-        private void KeepInBounds(GameBounds gameBounds)
+        private void KeepInBounds()
         {
-            var position = transform.position;
-            var chassisScale = chassis.lossyScale;
-            if (gameBounds.KeepInBoundsPadded(position, chassisScale, out var constrainedPosition))
+            if (gameBounds.KeepInBoundsPadded(transform.position, out var constrainedPosition))
             {
                 transform.position = constrainedPosition;
             }

@@ -18,7 +18,14 @@ namespace View.GameViews
 
         private Transform attachPoint;
 
+        private GameBounds gameBounds;
+
         private bool IsAttached => attachPoint != null;
+
+        private void Start()
+        {
+            gameBounds = GameViewController.Instance.GameBoundsFactory.Create(false, false, chassis.lossyScale);
+        }
 
         private void Update()
         {
@@ -34,7 +41,7 @@ namespace View.GameViews
                 Move(Time.deltaTime);
             }
 
-            AttemptCollideWithBounds(GameViewController.Instance.GameBounds);
+            AttemptCollideWithBounds();
         }
 
         private void FollowAttachPoint()
@@ -47,11 +54,9 @@ namespace View.GameViews
             transform.localPosition += deltaTime * velocity;
         }
 
-        private void AttemptCollideWithBounds(GameBounds gameBounds)
+        private void AttemptCollideWithBounds()
         {
-            var position = transform.position;
-            var scale = chassis.lossyScale;
-            var gameBoundsEdge = gameBounds.Reflect(position, scale, out var reflectedPosition);
+            var gameBoundsEdge = gameBounds.Reflect(transform.position, out var reflectedPosition);
             switch (gameBoundsEdge)
             {
                 case GameBoundsEdge.Left:

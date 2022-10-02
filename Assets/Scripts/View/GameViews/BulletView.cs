@@ -1,3 +1,4 @@
+using System;
 using Logic.Core;
 using UnityEngine;
 using Util.GenericPools;
@@ -10,11 +11,18 @@ namespace View.GameViews
 
         private Vector3 velocity;
 
+        private GameBounds gameBounds;
+
         public void Initialize(Player newOwner, Vector3 newVelocity)
         {
             owner = newOwner;
             velocity = newVelocity;
             gameObject.SetActive(true);
+        }
+
+        private void Start()
+        {
+            gameBounds = GameViewController.Instance.GameBoundsFactory.Create(false, true, transform.lossyScale);
         }
 
         private void Update()
@@ -23,7 +31,7 @@ namespace View.GameViews
 
             Move(Time.deltaTime);
 
-            DieIfOutOfBounds(GameViewController.Instance.GameBounds);
+            DieIfOutOfBounds();
         }
 
         private void Move(float deltaTime)
@@ -31,12 +39,9 @@ namespace View.GameViews
             transform.localPosition += deltaTime * velocity;
         }
 
-        private void DieIfOutOfBounds(GameBounds gameBounds)
+        private void DieIfOutOfBounds()
         {
-            var t = transform;
-            var position = t.position;
-            var scale = t.lossyScale;
-            if (gameBounds.IsOutOfBounds(position, scale))
+            if (gameBounds.IsOutOfBounds(transform.position))
             {
                 Die();
             }

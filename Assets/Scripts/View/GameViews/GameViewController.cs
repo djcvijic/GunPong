@@ -43,13 +43,13 @@ namespace View.GameViews
 
         public AudioManager AudioManager => AudioManager.Instance;
 
-        public GameBounds GameBounds { get; private set; }
+        public GameBoundsFactory GameBoundsFactory { get; private set; }
 
         public BallView Ball => ball;
 
         private void Start()
         {
-            GameBounds = new GameBounds(gameBoundsTransform.position, gameBoundsTransform.lossyScale,
+            GameBoundsFactory = new GameBoundsFactory(gameBoundsTransform.position, gameBoundsTransform.lossyScale,
                 paddedBoundsTransform.lossyScale, true, true, false);
             bottomPaddleStartingPosition = bottomPaddle.transform.position;
             topPaddleStartingPosition = topPaddle.transform.position;
