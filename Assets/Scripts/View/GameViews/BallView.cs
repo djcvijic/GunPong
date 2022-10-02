@@ -1,7 +1,7 @@
 using System;
 using Logic.Core;
-using Logic.GameBounds;
 using UnityEngine;
+using Util.GameBounds;
 using View.Audio;
 using View.Common;
 

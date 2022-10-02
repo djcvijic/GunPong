@@ -1,9 +1,9 @@
 using System;
 using Logic.Brains;
 using Logic.Core;
-using Logic.GameBounds;
 using UnityEngine;
 using Util.CoroutineRunner;
+using Util.GameBounds;
 using Util.GenericSingletons;
 using View.Audio;
 using View.UI;
