@@ -70,7 +70,7 @@ namespace View.GameViews
             if (!gameObject.activeSelf) return;
 
             gameObject.SetActive(false);
-            GenericMonoPool<BulletView>.Instance.Return(this);
+            GenericMonoPool<BulletView>.Instance.Release(this);
         }
 
         public void Kill()

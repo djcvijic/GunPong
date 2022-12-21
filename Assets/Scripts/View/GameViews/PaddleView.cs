@@ -103,7 +103,7 @@ namespace View.GameViews
             var bulletRotation = muzzle.rotation;
             var bulletDirection = muzzle.up;
             var bulletVelocity = bulletSpeed * bulletDirection;
-            var bullet = GenericMonoPool<BulletView>.Instance.GetOrCreate(
+            var bullet = GenericMonoPool<BulletView>.Instance.Get(
                 bulletPrefab, bulletPosition, bulletRotation, GameViewController.Instance.transform);
             bullet.Initialize(Owner, bulletVelocity);
             GameViewController.Instance.AudioManager.PlayAudio(fireSoundSettings);

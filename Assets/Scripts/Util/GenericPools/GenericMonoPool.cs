@@ -10,11 +10,12 @@ namespace Util.GenericPools
     {
         private readonly Stack<T> inactiveObjects = new();
 
-        public T GetOrCreate(T prefab, Vector3 position, Quaternion rotation, Transform parent)
+        public T Get(T prefab, Vector3 position, Quaternion rotation, Transform parent)
         {
             if (inactiveObjects.TryPop(out var obj))
             {
                 var t = obj.transform;
+                t.SetParent(parent);
                 t.position = position;
                 t.rotation = rotation;
             }
@@ -26,7 +27,7 @@ namespace Util.GenericPools
             return obj;
         }
 
-        public void Return(T obj)
+        public void Release(T obj)
         {
             if (inactiveObjects.Contains(obj))
             {
